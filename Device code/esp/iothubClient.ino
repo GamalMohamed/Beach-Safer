@@ -51,6 +51,13 @@ void stop()
     messageSending = false;
 }
 
+void vibrate()
+{
+    digitalWrite(VIBRATION_MOTOR_PIN, HIGH);
+    delay(3000);
+    digitalWrite(VIBRATION_MOTOR_PIN, LOW);
+}
+
 IOTHUBMESSAGE_DISPOSITION_RESULT receiveMessageCallback(IOTHUB_MESSAGE_HANDLE message, void *userContextCallback)
 {
     IOTHUBMESSAGE_DISPOSITION_RESULT result;
@@ -93,6 +100,10 @@ int deviceMethodCallback(const char *methodName, const unsigned char *payload, s
     else if (strcmp(methodName, "stop") == 0)
     {
         stop();
+    }
+    else if(strcmp(methodName, "vibrate") == 0)
+    {
+        vibrate();
     }
     else
     {

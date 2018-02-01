@@ -1,28 +1,29 @@
 #include <ArduinoJson.h>
 
-char* readRF_status()
+char *readRF_status()
 {
     // TODO
-    return "Dummy status";
+
+    return "Normal";
 }
 
-char* readGPS_location()
+char *readGPS_location()
 {
     // TODO
-    return "Dummy location";
+    return "30.052241,31.207811";
 }
 
 void readMessage(int messageId, char *payload)
 {
-    char* status = readRF_status();
-    char* location = readGPS_location();
+    char *status = readRF_status();
+    char *location = readGPS_location();
     StaticJsonBuffer<MESSAGE_MAX_LEN> jsonBuffer;
     JsonObject &root = jsonBuffer.createObject();
     root["deviceId"] = DEVICE_ID;
     root["messageId"] = messageId;
 
     // NAN is not the valid json, change it to NULL
-    if (status==NULL)
+    if (status == NULL)
     {
         root["status"] = NULL;
     }
@@ -31,7 +32,7 @@ void readMessage(int messageId, char *payload)
         root["status"] = status;
     }
 
-    if (location==NULL)
+    if (location == NULL)
     {
         root["location"] = NULL;
     }
