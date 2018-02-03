@@ -1,8 +1,24 @@
 #include <ArduinoJson.h>
 
+static bool rf_signal_recevied = false;
+static char* status;
+static char* location;
 char *readRF_status()
 {
-    // TODO
+    uint8_t buf[RH_ASK_MAX_MESSAGE_LEN];
+    uint8_t buflen = sizeof(buf);
+
+    if (RF_driver.recv(buf, &buflen))
+    {
+        char *temp = (char *)malloc(buflen + 1);
+        for (int i = 0; i < buflen; i++)
+        {
+            temp[i] = (char)(buf[i]);
+        }
+        temp[buflen] = '\0';
+        rf_signal_recevied = true;
+        return ((char *)temp);
+    }
 
     return "Normal";
 }
@@ -15,8 +31,11 @@ char *readGPS_location()
 
 void readMessage(int messageId, char *payload)
 {
-    char *status = readRF_status();
-    char *location = readGPS_location();
+    location = readGPS_location();
+    if (!rf_signal_recevied)
+    {
+        status = readRF_status();
+    }
     StaticJsonBuffer<MESSAGE_MAX_LEN> jsonBuffer;
     JsonObject &root = jsonBuffer.createObject();
     root["deviceId"] = DEVICE_ID;
@@ -25,7 +44,7 @@ void readMessage(int messageId, char *payload)
     // NAN is not the valid json, change it to NULL
     if (status == NULL)
     {
-        root["status"] = NULL;
+        root["status"] = "NAN";
     }
     else
     {
@@ -34,7 +53,7 @@ void readMessage(int messageId, char *payload)
 
     if (location == NULL)
     {
-        root["location"] = NULL;
+        root["location"] = "NAN";
     }
     else
     {
