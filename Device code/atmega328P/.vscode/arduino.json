@@ -1,0 +1,5 @@
+{
+    "sketch": "atmega328P.ino",
+    "board": "arduino:avr:uno",
+    "output": "../Atmega328build"
+}
