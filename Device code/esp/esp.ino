@@ -11,7 +11,7 @@
 static bool messagePending = false;
 static bool messageSending = true;
 static unsigned int messageCount = 1;
-static int interval = INTERVAL;
+static int sendingInterval = INTERVAL;
 static IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle;
 
 void blinkLED()
@@ -64,7 +64,7 @@ void loop()
         readMessage(messageCount, messagePayload);
         sendMessage(iotHubClientHandle, messagePayload);
         messageCount++;
-        delay(interval);
+        delay(sendingInterval);
     }
     IoTHubClient_LL_DoWork(iotHubClientHandle);
     delay(10);

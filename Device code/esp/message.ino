@@ -20,13 +20,13 @@ char *readRF_status()
         return ((char *)temp);
     }
 
-    return "Normal";
+    return "OK";
 }
 
 char *readGPS_location()
 {
     // TODO
-    return "30.052241,31.207811";
+    return "31.112666,29.653975";
 }
 
 void readMessage(int messageId, char *payload)
@@ -41,7 +41,6 @@ void readMessage(int messageId, char *payload)
     root["deviceId"] = DEVICE_ID;
     root["messageId"] = messageId;
 
-    // NAN is not the valid json, change it to NULL
     if (status == NULL)
     {
         root["status"] = "NAN";
@@ -75,10 +74,10 @@ void parseTwinMessage(char *message)
 
     if (root["desired"]["interval"].success())
     {
-        interval = root["desired"]["interval"];
+        sendingInterval = root["desired"]["interval"];
     }
     else if (root.containsKey("interval"))
     {
-        interval = root["interval"];
+        sendingInterval = root["interval"];
     }
 }

@@ -2,7 +2,7 @@
 #include <SPI.h>
 #include "config.h"
 
-
+static bool rf_tr = false;
 char *MonitorHealth()
 {
   return "OK";
@@ -39,13 +39,18 @@ void setup()
 
 void loop()
 {
-  char *status = MonitorHealth();
+  if (IsButtonPressed() || rf_tr == true)
+  {
+    RF_transmit("SOS");
+    Serial.println("SOS");
+    rf_tr = true;
+  }
+  else{
+    Serial.println("OK");
+  }
+  /*char *status = MonitorHealth();
   if (status != "OK")
   {
     RF_transmit(status);
-  }
-  if (IsButtonPressed())
-  {
-    RF_transmit("SOS");
-  }
+  }*/
 }

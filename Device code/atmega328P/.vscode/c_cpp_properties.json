@@ -3,14 +3,16 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceRoot}"
+                "${workspaceRoot}",
+                "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino"
             ],
             "browse": {
                 "path": [
                     "C:/Program Files (x86)/Arduino/hardware",
                     "C:/Program Files (x86)/Arduino/libraries",
                     "C:/Users/JIMMY/Documents/Arduino Projects/libraries/",
-                    "${workspaceRoot}"
+                    "${workspaceRoot}",
+                    "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino"
                 ],
                 "limitSymbolsToIncludedHeaders": false,
                 "databaseFilename": ""
