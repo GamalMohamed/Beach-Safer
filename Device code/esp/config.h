@@ -20,8 +20,8 @@
 #define CONNECTION_STRING_LEN 256
 
 
-static char *ssid="Gamal";
-static char *pass="12131415";
+static char *ssid="Jimmy2";
+static char *pass="12345678900";
 static char *connectionString="HostName=esp-IoTHub.azure-devices.net;DeviceId=ESP12F;SharedAccessKey=1YTcS/KjcfrrdYgQhybnl9t8HZZi8HepkSpxH+Kp8Es=";
 
 static RH_ASK RF_driver(2000, RF_RX_PIN, RF_TX_PIN, RF_PTT_PIN);
