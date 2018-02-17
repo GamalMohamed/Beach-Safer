@@ -12,6 +12,9 @@ namespace WebApp.Models
 
         public bool? IsOwned { get; set; }
 
+        public int? DeviceUserId { get; set; }
+
+        [ForeignKey("DeviceUserId")]
         public virtual DeviceUser DeviceUser { get; set; }
 
         public virtual ICollection<DeviceLog> DeviceLogs { get; set; }
@@ -31,7 +34,7 @@ namespace WebApp.Models
 
         public int? MessageId { get; set; }
 
-        public string Status { get; set; }
+        public string State { get; set; }
 
         public string Location { get; set; }
     }

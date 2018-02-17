@@ -203,6 +203,14 @@
     <Compile Include="Migrations\201802171310356_AddedMyEntites.Designer.cs">
       <DependentUpon>201802171310356_AddedMyEntites.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802171417535_DeviceUserIdColumnAdded.cs" />
+    <Compile Include="Migrations\201802171417535_DeviceUserIdColumnAdded.Designer.cs">
+      <DependentUpon>201802171417535_DeviceUserIdColumnAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802171526163_RenamedStatusToState.cs" />
+    <Compile Include="Migrations\201802171526163_RenamedStatusToState.Designer.cs">
+      <DependentUpon>201802171526163_RenamedStatusToState.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -293,6 +301,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802171310356_AddedMyEntites.resx">
       <DependentUpon>201802171310356_AddedMyEntites.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802171417535_DeviceUserIdColumnAdded.resx">
+      <DependentUpon>201802171417535_DeviceUserIdColumnAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802171526163_RenamedStatusToState.resx">
+      <DependentUpon>201802171526163_RenamedStatusToState.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
