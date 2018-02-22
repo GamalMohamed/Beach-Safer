@@ -18,14 +18,13 @@ char *MonitorHealth()
 
 inline bool IsButtonPressedOnce()
 {
-  if (digitalRead(PUSH_BUTTON_PIN) == HIGH)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
+  return (digitalRead(PUSH_BUTTON_PIN) == HIGH ? true: false);
+}
+
+inline bool IsButtonPressedTwice()
+{
+  // TODO: Check if button pressed twice
+  return false;
 }
 
 void SendRF_message(char *msg)
@@ -57,9 +56,16 @@ void loop()
     SendRF_message("SOS1");
   }
 
+  if(IsButtonPressedTwice())
+  {
+    // TODO: Operate Servo!
+    SendRF_message("SOS2");
+  }
+
   char *state = MonitorHealth();
   if (state != "OK")
   {
+    // TODO: Operate Servo!
     SendRF_message(state);
   }
 }
