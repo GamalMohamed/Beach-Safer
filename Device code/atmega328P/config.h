@@ -9,8 +9,8 @@
 #define RF_RX_PIN 4
 #define RF_TX_PIN 8
 #define RF_PTT_PIN 5 
-//#define SERVO1_PIN ??
-//#define SERVO2_PIN ??
+//#define RELEASE_SERVO_PIN ??
+//#define PULL_SERVO2_PIN ??
 
 static inline void SmartDelay(int delayPeriod)
 {
