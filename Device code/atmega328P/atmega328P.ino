@@ -1,23 +1,22 @@
-#include <RH_ASK.h>
-#include <SPI.h>
 #include "config.h"
 
-static bool rf_tr = false;
 char *MonitorHealth()
 {
+  int SpO2, heartBeat;
+  MAX30100_Operate(SpO2, heartBeat);
+  if (SpO2 > 0 && SpO2 < 90)
+  {
+    return "Drowning";
+  }
+  if (heartBeat > 0 && heartBeat <= 25)
+  {
+    return "Distress";
+  }
+
   return "OK";
 }
 
-void RF_transmit(char *msg)
-{
-  //char *msg = "Drowning";
-
-  driver.send((uint8_t *)msg, strlen(msg));
-  driver.waitPacketSent();
-  delay(200);
-}
-
-bool IsButtonPressed()
+inline bool IsButtonPressedOnce()
 {
   if (digitalRead(PUSH_BUTTON_PIN) == HIGH)
   {
@@ -29,28 +28,38 @@ bool IsButtonPressed()
   }
 }
 
+void SendRF_message(char *msg)
+{
+  char rf_msg[MAX_RF_MSG_LENGTH];
+  sprintf(rf_msg, "%s %s", DEVICE_ID, msg);
+  uint32_t sstart = millis();
+  while (millis() - sstart <= RF_MSG_SENDING_PERIOD)
+  {
+    RF_transmit(rf_msg);
+    Serial.println(rf_msg);
+  }
+}
+
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   pinMode(PUSH_BUTTON_PIN, INPUT);
+
+  MAX30100_init();
   RF_init();
 }
 
 void loop()
 {
-  if (IsButtonPressed() || rf_tr == true)
+  if (IsButtonPressedOnce())
   {
-    RF_transmit("SOS");
-    Serial.println("SOS");
-    rf_tr = true;
+    SendRF_message("SOS1");
   }
-  else{
-    Serial.println("OK");
-  }
-  /*char *status = MonitorHealth();
-  if (status != "OK")
+
+  char *state = MonitorHealth();
+  if (state != "OK")
   {
-    RF_transmit(status);
-  }*/
+    SendRF_message(state);
+  }
 }
