@@ -32,86 +32,85 @@ void PushButtonISR()
    
     while(1)
     {
-		pinState = digitalRead(2);
-		if(pinState == 0)
-		{
-			pushCount++;
-			if(pushCount > PUSH_INTERVAL)
-            break;
-		}
-		else
-			pushCount = 0;
-	}
-
-	while(1)
+	pinState = digitalRead(2);
+	if(pinState == 0)
 	{
-		pinState = digitalRead(2);
-		if(pinState == 1)
-		{
-			relCount++;
-			if(relCount > REL_INTERVAL)
-            break;
-		}
-		else
-			relCount = 0;
+       	  pushCount++;
+	  if(pushCount > PUSH_INTERVAL)
+          break;
 	}
+	else
+	  pushCount = 0;
+    }
 
-   
-	relCount = 0;
-	pushCount = 0;
-	while(1)
+    while(1)
+    {
+	pinState = digitalRead(2);
+	if(pinState == 1)
 	{
-		pinState = digitalRead(2);
-		if(pinState == 1)
-		{
-			relCount++;
-			pushCount=0;
+	   relCount++;
+	   if(relCount > REL_INTERVAL)
+           break;
+	}
+	else
+	   relCount = 0;
+     }
 
-			if(relCount > 33000)   // single push detected
-			{
-				Serial.println("Single push detected");
-			  SendRF_message("SOS1");
-        lockMax = true;
+     relCount = 0;
+     pushCount = 0;
+     while(1)
+     {
+	pinState = digitalRead(2);
+	if(pinState == 1)
+	{
+	   relCount++;
+	   pushCount=0;
+
+	   if(relCount > 33000)   // single push detected
+	   {
+	       Serial.println("Single push detected");
+	       SendRF_message("SOS1");
+               lockMax = true;
         
-        // enable Interrupt on PIN 2 
-        EIFR &= 0b11111110;
-			  EIMSK |= 0b00000001;
-				return;
-			}
-		}
-		else
-		{
-			pushCount++;
-			relCount=0;
+        	// enable Interrupt on PIN 2 
+        	EIFR &= 0b11111110;
+		EIMSK |= 0b00000001;
+		return;
+	    }
+	}
+	else
+	{
+	    pushCount++;
+	    relCount=0;
 
-			if(pushCount > PUSH_INTERVAL)  // double push detected
+	    if(pushCount > PUSH_INTERVAL)  // double push detected
 			{ 
-        // wait for release
-				relCount = 0;
-				while(1)
-				{
-					pinState = digitalRead(2);
-					if(pinState == 1)
-					{
-						relCount++;
-						if(relCount > REL_INTERVAL)
-						break;
-					}
-					else
-						relCount=0;
-				} 
+            // wait for release
+	    relCount = 0;
+	    while(1)
+	    {
+	        pinState = digitalRead(2);
+	        if(pinState == 1)
+		{
+		    relCount++;
+		    if(relCount > REL_INTERVAL)
+		       break;
+		}
+		else
+		    relCount=0;
+	     } 
        
-        Serial.println("Double push detected");
-        // TODO: Operate Servos!
-        SendRF_message("SOS2");
-        lockMax = true;
+             Serial.println("Double push detected");
+             // TODO: Operate Servos!
+             SendRF_message("SOS2");
+             lockMax = true;
         
-        // enable Interrupt on PIN 2
-				EIFR &= 0b11111110;
-				EIMSK |= 0b00000001;
-				return;
-			}    
-		}   
+             // enable Interrupt on PIN 2
+	     EIFR &= 0b11111110;
+	     EIMSK |= 0b00000001;
+	     return;
+	 }    
+      }   
    }   
 }
 
