@@ -32,8 +32,8 @@ void PushButtonISR()
    
     while(1)
     {
-	pinState = digitalRead(2);
-	if(pinState == 0)
+	pinState = digitalRead(PUSH_BUTTON_PIN);
+	if(pinState == LOW)
 	{
        	  pushCount++;
 	  if(pushCount > PUSH_INTERVAL)
@@ -45,8 +45,8 @@ void PushButtonISR()
 
     while(1)
     {
-	pinState = digitalRead(2);
-	if(pinState == 1)
+	pinState = digitalRead(PUSH_BUTTON_PIN);
+	if(pinState == HIGH)
 	{
 	   relCount++;
 	   if(relCount > REL_INTERVAL)
@@ -60,13 +60,13 @@ void PushButtonISR()
      pushCount = 0;
      while(1)
      {
-	pinState = digitalRead(2);
-	if(pinState == 1)
+	pinState = digitalRead(PUSH_BUTTON_PIN);
+	if(pinState == HIGH)
 	{
 	   relCount++;
 	   pushCount=0;
 
-	   if(relCount > 33000)   // single push detected
+	   if(relCount > INTER_PUSHES_INTERVAL)   // single push detected
 	   {
 	       Serial.println("Single push detected");
 	       SendRF_message("SOS1");
@@ -84,13 +84,13 @@ void PushButtonISR()
 	    relCount=0;
 
 	    if(pushCount > PUSH_INTERVAL)  // double push detected
-			{ 
+	    { 
             // wait for release
 	    relCount = 0;
 	    while(1)
 	    {
-	        pinState = digitalRead(2);
-	        if(pinState == 1)
+	        pinState = digitalRead(PUSH_BUTTON_PIN);
+	        if(pinState == HIGH)
 		{
 		    relCount++;
 		    if(relCount > REL_INTERVAL)
@@ -99,12 +99,15 @@ void PushButtonISR()
 		else
 		    relCount=0;
 	     } 
-       
-             Serial.println("Double push detected");
-             // TODO: Operate Servos!
-             SendRF_message("SOS2");
-             lockMax = true;
-        
+       	     
+             if(! double_pressed)
+	     {
+             	Serial.println("Double push detected");
+             	// TODO: Operate Servos!
+             	SendRF_message("SOS2");
+             	lockMax = true;
+		double_pressed = true;
+	     }
              // enable Interrupt on PIN 2
 	     EIFR &= 0b11111110;
 	     EIMSK |= 0b00000001;
@@ -142,6 +145,8 @@ void setup()
 }
 
 bool volatile lockMax = false; // HACK: Ignore Max30100 once successfully operating RF
+bool volatile double_pressed = false;
+
 void loop()
 {
  
