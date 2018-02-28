@@ -5,8 +5,9 @@
 #define RF_MSG_SENDING_PERIOD 30000
 
 //push button constants
-#define PUSH_INTERVAL 20000
+#define PUSH_INTERVAL 10000
 #define REL_INTERVAL 5000
+#define INTER_PUSHES_INTERVAL 33000
 
 // Pin Layout configuration
 #define PUSH_BUTTON_PIN 2
