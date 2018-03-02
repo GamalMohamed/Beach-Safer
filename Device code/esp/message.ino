@@ -1,9 +1,9 @@
 #include <ArduinoJson.h>
 
 static bool rf_signal_recevied = false;
-static char* status;
-static char* location;
-char *readRF_status()
+static char *state;
+static char *location;
+char *readRF_state()
 {
     uint8_t buf[RH_ASK_MAX_MESSAGE_LEN];
     uint8_t buflen = sizeof(buf);
@@ -26,28 +26,33 @@ char *readRF_status()
 char *readGPS_location()
 {
     // TODO
-    return "31.112666,29.653975";
+    return "31.093961,29.698672";
 }
 
-void readMessage(int messageId, char *payload)
+char* readMessage(int messageId, char *payload)
 {
+    char* alert = "NA";
     location = readGPS_location();
     if (!rf_signal_recevied)
     {
-        status = readRF_status();
+        state = readRF_state();
     }
     StaticJsonBuffer<MESSAGE_MAX_LEN> jsonBuffer;
     JsonObject &root = jsonBuffer.createObject();
     root["deviceId"] = DEVICE_ID;
     root["messageId"] = messageId;
 
-    if (status == NULL)
+    if (state == NULL)
     {
-        root["status"] = "NAN";
+        root["state"] = "NAN";
     }
     else
     {
-        root["status"] = status;
+        root["state"] = state;
+        if (state != "OK")
+        {
+            alert = state;
+        }
     }
 
     if (location == NULL)
@@ -60,6 +65,7 @@ void readMessage(int messageId, char *payload)
     }
 
     root.printTo(payload, MESSAGE_MAX_LEN);
+    return alert;
 }
 
 void parseTwinMessage(char *message)

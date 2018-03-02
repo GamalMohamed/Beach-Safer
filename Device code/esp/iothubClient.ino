@@ -15,7 +15,7 @@ static void sendCallback(IOTHUB_CLIENT_CONFIRMATION_RESULT result, void *userCon
     messagePending = false;
 }
 
-static void sendMessage(IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle, char *buffer)
+static void sendMessage(IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle, char *buffer, const char *alert)
 {
     IOTHUB_MESSAGE_HANDLE messageHandle = IoTHubMessage_CreateFromByteArray((const unsigned char *)buffer, strlen(buffer));
     if (messageHandle == NULL)
@@ -24,6 +24,12 @@ static void sendMessage(IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle, char *buffer
     }
     else
     {
+        MAP_HANDLE propMap = IoTHubMessage_Properties(messageHandle);
+        if (Map_AddOrUpdate(propMap, "Alert", alert) != MAP_OK)
+        {
+            Serial.println("ERROR: Map_AddOrUpdate Failed!!");
+        }
+
         Serial.printf("Sending message: %s.\r\n", buffer);
         if (IoTHubClient_LL_SendEventAsync(iotHubClientHandle, messageHandle, sendCallback, NULL) != IOTHUB_CLIENT_OK)
         {
@@ -54,7 +60,7 @@ void stop()
 void vibrate()
 {
     digitalWrite(VIBRATION_MOTOR_PIN, HIGH);
-    delay(3000);
+    SmartDelay(3000);
     digitalWrite(VIBRATION_MOTOR_PIN, LOW);
 }
 
@@ -101,7 +107,7 @@ int deviceMethodCallback(const char *methodName, const unsigned char *payload, s
     {
         stop();
     }
-    else if(strcmp(methodName, "vibrate") == 0)
+    else if (strcmp(methodName, "vibrate") == 0)
     {
         vibrate();
     }
@@ -120,7 +126,7 @@ int deviceMethodCallback(const char *methodName, const unsigned char *payload, s
 }
 
 void twinCallback(DEVICE_TWIN_UPDATE_STATE updateState, const unsigned char *payLoad, size_t size,
-                    void *userContextCallback)
+                  void *userContextCallback)
 {
     char *temp = (char *)malloc(size + 1);
     for (int i = 0; i < size; i++)

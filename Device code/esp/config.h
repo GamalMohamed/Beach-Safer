@@ -1,5 +1,5 @@
 // Physical device information for board and sensor
-#define DEVICE_ID "ESP12F"
+#define DEVICE_ID "ESP"
 
 // Pin layout
 #define LED_PIN 2
@@ -11,7 +11,7 @@
 #define RF_PTT_PIN 5 
 
 // Interval time(ms) for sending message to IoT Hub
-#define INTERVAL 1000
+#define SENDING_INTERVAL 2000
 #define MESSAGE_MAX_LEN 256
 
 // SSID and SSID password's length should be < 32 bytes
@@ -20,12 +20,21 @@
 #define CONNECTION_STRING_LEN 256
 
 
-static char *ssid="Jimmy2";
-static char *pass="12345678900";
-static char *connectionString="HostName=esp-IoTHub.azure-devices.net;DeviceId=ESP12F;SharedAccessKey=1YTcS/KjcfrrdYgQhybnl9t8HZZi8HepkSpxH+Kp8Es=";
+static char *ssid="Gamal";
+static char *pass="12131415";
+static char *connectionString="HostName=esp-IoTHub.azure-devices.net;DeviceId=ESP;SharedAccessKey=pfd5LETKkYRVxlvILdgkjDvkF88PPEWZvToumpWVkE8=";
 
 static RH_ASK RF_driver(2000, RF_RX_PIN, RF_TX_PIN, RF_PTT_PIN);
 
+
+static inline void SmartDelay(int delayPeriod)
+{
+  uint32_t sstart = millis();
+  while (millis() - sstart <= delayPeriod)
+  {
+    delay(0); // HACK: To overcome esp watch dog timeout
+  }
+}
 
 // For debugging purposes only
 void initSerial()
