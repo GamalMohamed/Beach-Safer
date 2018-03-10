@@ -3,37 +3,37 @@
 
 // Pin layout
 #define LED_PIN 2
-#define VIBRATION_MOTOR_PIN 13
-#define GPS_TX_PIN 14
-#define GPS_RX_PIN 16
+#define VIBRATION_MOTOR_PIN 14
+#define GPS_TX_PIN 13
+#define GPS_RX_PIN 12
 #define RF_RX_PIN 4
-#define RF_TX_PIN 13
-#define RF_PTT_PIN 5 
+#define RF_TX_PIN 2
+#define RF_PTT_PIN 5
 
 // Interval time(ms) for sending message to IoT Hub
 #define SENDING_INTERVAL 2000
 #define MESSAGE_MAX_LEN 256
+#define GPS_LOC_ACC 20
+#define GPS_BAUD 9600
 
 // SSID and SSID password's length should be < 32 bytes
 #define SSID_LEN 32
 #define PASS_LEN 32
 #define CONNECTION_STRING_LEN 256
 
-
-static char *ssid="Gamal";
-static char *pass="12131415";
-static char *connectionString="HostName=esp-IoTHub.azure-devices.net;DeviceId=ESP;SharedAccessKey=pfd5LETKkYRVxlvILdgkjDvkF88PPEWZvToumpWVkE8=";
+static char *ssid = "Gamal";
+static char *pass = "12131415";
+static char *connectionString = "HostName=esp-IoTHub.azure-devices.net;DeviceId=ESP;SharedAccessKey=pfd5LETKkYRVxlvILdgkjDvkF88PPEWZvToumpWVkE8=";
 
 static RH_ASK RF_driver(2000, RF_RX_PIN, RF_TX_PIN, RF_PTT_PIN);
 
-
 static inline void SmartDelay(int delayPeriod)
 {
-  uint32_t sstart = millis();
-  while (millis() - sstart <= delayPeriod)
-  {
-    delay(0); // HACK: To overcome esp watch dog timeout
-  }
+    uint32_t sstart = millis();
+    while (millis() - sstart <= delayPeriod)
+    {
+        delay(0); // HACK: To overcome esp watch dog timeout
+    }
 }
 
 // For debugging purposes only
@@ -53,7 +53,7 @@ void initWifi()
         uint8_t mac[6];
         WiFi.macAddress(mac);
         Serial.printf("You device with MAC address %02x:%02x:%02x:%02x:%02x:%02x connects to %s failed! Waiting 10 seconds to retry.\r\n",
-                mac[0], mac[1], mac[2], mac[3], mac[4], mac[5], ssid);
+                      mac[0], mac[1], mac[2], mac[3], mac[4], mac[5], ssid);
         WiFi.begin(ssid, pass);
         delay(10000);
     }
@@ -84,15 +84,10 @@ void initTime()
 
 void initRF()
 {
-    if(!RF_driver.init())
+    if (!RF_driver.init())
     {
         Serial.println("Failed to intialize RF receiver!!");
     }
-}
-
-void initGPS()
-{
-    //TODO
 }
 
 void initVibrationMotor()

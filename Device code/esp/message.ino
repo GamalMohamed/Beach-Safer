@@ -3,7 +3,7 @@
 static bool rf_signal_recevied = false;
 static char *state;
 static char *location;
-char *readRF_state()
+char *readRF()
 {
     uint8_t buf[RH_ASK_MAX_MESSAGE_LEN];
     uint8_t buflen = sizeof(buf);
@@ -23,19 +23,28 @@ char *readRF_state()
     return "OK";
 }
 
-char *readGPS_location()
+char *readGPS()
 {
-    // TODO
-    return "31.093961,29.698672";
+    char parsedloc[GPS_LOC_ACC];
+    double latitude, longitude;
+    latitude = longitude = 0.0f;
+    if (getGPSCoordinates(latitude, longitude))
+    {
+        sprintf(parsedloc, "%f,%f", latitude, longitude);
+        return parsedloc;
+    }
+    
+    return "BULLSHIT LOCATION!!";
+    //return "31.093961,29.698672";
 }
 
-char* readMessage(int messageId, char *payload)
+char *readMessage(int messageId, char *payload)
 {
-    char* alert = "NA";
-    location = readGPS_location();
+    char *alert = "NA";
+    location = readGPS();
     if (!rf_signal_recevied)
     {
-        state = readRF_state();
+        state = readRF();
     }
     StaticJsonBuffer<MESSAGE_MAX_LEN> jsonBuffer;
     JsonObject &root = jsonBuffer.createObject();
