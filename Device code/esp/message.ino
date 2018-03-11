@@ -1,8 +1,8 @@
 #include <ArduinoJson.h>
 
-static bool rf_signal_recevied = false;
-static char *state;
-static char *location;
+bool rf_signal_recevied = false;
+char *state;
+char location[GPS_LOC_ACC];
 char *readRF()
 {
     uint8_t buf[RH_ASK_MAX_MESSAGE_LEN];
@@ -25,15 +25,13 @@ char *readRF()
 
 char *readGPS()
 {
-    char parsedloc[GPS_LOC_ACC];
-    double latitude, longitude;
-    latitude = longitude = 0.0f;
+    char latitude[10], longitude[10];
     if (getGPSCoordinates(latitude, longitude))
     {
-        sprintf(parsedloc, "%f,%f", latitude, longitude);
-        return parsedloc;
+        sprintf(location, "%s,%s", latitude, longitude);
+        return location;
     }
-    
+
     return "BULLSHIT LOCATION!!";
     //return "31.093961,29.698672";
 }
@@ -41,7 +39,7 @@ char *readGPS()
 char *readMessage(int messageId, char *payload)
 {
     char *alert = "NA";
-    location = readGPS();
+    readGPS();
     if (!rf_signal_recevied)
     {
         state = readRF();

@@ -9,7 +9,7 @@ void initGPS()
     gps_serial.begin(GPS_BAUD);
 }
 
-bool getGPSCoordinates(double &latitude, double &longitude)
+bool getGPSCoordinates(char *latitude, char *longitude)
 {
     GPS_smartDelay(500);
     if (millis() > 5000 && gps.charsProcessed() < 10)
@@ -18,13 +18,8 @@ bool getGPSCoordinates(double &latitude, double &longitude)
         return false;
     }
 
-    latitude = gps.location.lat();
-    longitude = gps.location.lng();
-    Serial.print("Latitude: ");
-    Serial.println(latitude, 5);
-    Serial.print("Longitude: ");
-    Serial.println(longitude, 5);
-
+    sprintf(latitude, "%f", gps.location.lat());
+    sprintf(longitude, "%f", gps.location.lng());
     return true;
 }
 
