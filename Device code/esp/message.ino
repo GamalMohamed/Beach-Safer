@@ -3,23 +3,15 @@
 bool rf_signal_recevied = false;
 char *state;
 char location[GPS_LOC_ACC];
-char *readRF()
+
+char *checkRF()
 {
-    uint8_t buf[RH_ASK_MAX_MESSAGE_LEN];
-    uint8_t buflen = sizeof(buf);
-
-    if (RF_driver.recv(buf, &buflen))
+    char *r = getRFReading();
+    if (r != "")
     {
-        char *temp = (char *)malloc(buflen + 1);
-        for (int i = 0; i < buflen; i++)
-        {
-            temp[i] = (char)(buf[i]);
-        }
-        temp[buflen] = '\0';
         rf_signal_recevied = true;
-        return ((char *)temp);
+        return r;
     }
-
     return "OK";
 }
 
@@ -42,7 +34,7 @@ char *readMessage(int messageId, char *payload)
     readGPS();
     if (!rf_signal_recevied)
     {
-        state = readRF();
+        state = checkRF();
     }
     StaticJsonBuffer<MESSAGE_MAX_LEN> jsonBuffer;
     JsonObject &root = jsonBuffer.createObject();

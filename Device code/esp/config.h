@@ -25,7 +25,6 @@ static char *ssid = "Gamal";
 static char *pass = "12131415";
 static char *connectionString = "HostName=esp-IoTHub.azure-devices.net;DeviceId=ESP;SharedAccessKey=pfd5LETKkYRVxlvILdgkjDvkF88PPEWZvToumpWVkE8=";
 
-static RH_ASK RF_driver(2000, RF_RX_PIN, RF_TX_PIN, RF_PTT_PIN);
 
 static inline void SmartDelay(int delayPeriod)
 {
@@ -79,14 +78,6 @@ void initTime()
             Serial.printf("Fetched NTP epoch time is: %lu.\r\n", epochTime);
             break;
         }
-    }
-}
-
-void initRF()
-{
-    if (!RF_driver.init())
-    {
-        Serial.println("Failed to intialize RF receiver!!");
     }
 }
 

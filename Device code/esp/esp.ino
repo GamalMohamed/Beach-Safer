@@ -4,8 +4,6 @@
 #include <AzureIoTHub.h>
 #include <AzureIoTProtocol_MQTT.h>
 #include <AzureIoTUtility.h>
-#include <RH_ASK.h>
-#include <SPI.h> 
 #include "config.h"
 
 static bool messagePending = false;
