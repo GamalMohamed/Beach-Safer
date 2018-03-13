@@ -7,8 +7,8 @@
 #define FILTER_WEIGHT 0.5
 
 PulseOximeter pox;
-uint32_t tsLastReport = 0;
-uint32_t last_beat = 0;
+unsigned long tsLastReport = 0;
+unsigned long last_beat = 0;
 int readIndex = 0;
 int average_beat = 0;
 int average_SpO2 = 0;

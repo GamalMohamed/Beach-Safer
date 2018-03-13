@@ -6,11 +6,12 @@
 #include <AzureIoTUtility.h>
 #include "config.h"
 
-static bool messagePending = false;
-static bool messageSending = true;
-static unsigned int messageCount = 1;
-static int sendingInterval = SENDING_INTERVAL;
-static IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle;
+bool messagePending = false;
+bool messageSending = true;
+bool alertSending = false;
+unsigned long lastReport = 0;
+unsigned int messageCount = 1;
+IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle;
 
 void blinkLED()
 {
@@ -38,7 +39,8 @@ void ConfigureIoTHubConnection()
     if (iotHubClientHandle == NULL)
     {
         Serial.println("Failed on IoTHubClient_CreateFromConnectionString.");
-        while (1);
+        while (1)
+            ;
     }
 
     IoTHubClient_LL_SetOption(iotHubClientHandle, "product_info", "ESP8266-12F");
@@ -56,13 +58,27 @@ void setup()
 
 void loop()
 {
-    if (!messagePending && messageSending)
+    if (!isRFMsgReceived())
     {
-        char messagePayload[MESSAGE_MAX_LEN];
-        char* alert = readMessage(messageCount, messagePayload);
-        sendMessage(iotHubClientHandle, messagePayload, alert);
-        messageCount++;
-        SmartDelay(sendingInterval);
+        char *staate = checkRF();
+        if (staate != NORMAL_STATE)
+        {
+            setState(staate);
+            alertSending = true;
+        }
+    }
+
+    if ((millis() - lastReport > SENDING_INTERVAL) || alertSending)
+    {
+        if (!messagePending && messageSending)
+        {
+            char messagePayload[MESSAGE_MAX_LEN];
+            char *alert = readMessage(messageCount, messagePayload);
+            sendMessage(iotHubClientHandle, messagePayload, alert);
+            messageCount++;
+            SmartDelay(1000);
+        }
+        lastReport = millis();
     }
     IoTHubClient_LL_DoWork(iotHubClientHandle);
     SmartDelay(10);

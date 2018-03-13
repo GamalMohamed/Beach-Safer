@@ -11,10 +11,12 @@
 #define RF_PTT_PIN 5
 
 // Interval time(ms) for sending message to IoT Hub
-#define SENDING_INTERVAL 2000
+#define SENDING_INTERVAL 15000
 #define MESSAGE_MAX_LEN 256
 #define GPS_LOC_ACC 20
 #define GPS_BAUD 9600
+
+#define NORMAL_STATE "OK"
 
 // SSID and SSID password's length should be < 32 bytes
 #define SSID_LEN 32

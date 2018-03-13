@@ -124,10 +124,10 @@ void SendRF_message(char *msg)
   uint32_t sstart = millis();
   while (millis() - sstart <= RF_MSG_SENDING_PERIOD)
   {
-    //RF_transmit(rf_msg);
-    //Serial.println(rf_msg);
-    RF_transmit(msg);
-    Serial.println(msg);
+    RF_transmit(rf_msg);
+    Serial.println(rf_msg);
+    //RF_transmit(msg);
+    //Serial.println(msg);
   }
 }
 

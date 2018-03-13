@@ -1,18 +1,43 @@
 #include <ArduinoJson.h>
 
-bool rf_signal_recevied = false;
+bool RFMsgReceived = false;
 char *state;
 char location[GPS_LOC_ACC];
+int sendingInterval = SENDING_INTERVAL;
+
+inline void setState(char *rf_state)
+{
+    state = rf_state;
+    RFMsgReceived = true;
+}
+
+inline bool isRFMsgReceived()
+{
+    return RFMsgReceived;
+}
+
+bool isItForMe(char *rfMsg, char **myMsg)
+{
+    char *temp = (char *)malloc(strlen(rfMsg) + 1);
+    strcpy(temp, rfMsg);
+    char *dId = strtok(temp, " ");
+    *myMsg = strtok(NULL, " ");
+    Serial.println(*myMsg);
+    return (strcmp(dId, DEVICE_ID) == 0) ? true : false;
+}
 
 char *checkRF()
 {
-    char *r = getRFReading();
-    if (r != "")
+    char *rfMsg = getRFReading();
+    if (rfMsg != "")
     {
-        rf_signal_recevied = true;
-        return r;
+        char *myMsg = "";
+        if (isItForMe(rfMsg, &myMsg))
+        {
+            return myMsg;
+        }
     }
-    return "OK";
+    return NORMAL_STATE;
 }
 
 char *readGPS()
@@ -24,15 +49,14 @@ char *readGPS()
         return location;
     }
 
-    return "BULLSHIT LOCATION!!";
-    //return "31.093961,29.698672";
+    return "31.093961,29.698672";
 }
 
 char *readMessage(int messageId, char *payload)
 {
     char *alert = "NA";
     readGPS();
-    if (!rf_signal_recevied)
+    if (!RFMsgReceived)
     {
         state = checkRF();
     }
@@ -48,8 +72,9 @@ char *readMessage(int messageId, char *payload)
     else
     {
         root["state"] = state;
-        if (state != "OK")
+        if (state != NORMAL_STATE)
         {
+            RFMsgReceived = true;
             alert = state;
         }
     }
