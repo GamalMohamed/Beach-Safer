@@ -32,13 +32,11 @@ namespace WebApp.Models
         [Required]
         public string Name { get; set; }
 
-        [Display(Name = "Longitude Begining")]
-        public string LongitudeBegin { get; set; }
+        [Display(Name = "Start Point")]
+        public string StartPoint { get; set; }
 
-        [Display(Name = "Longitude Ending")]
-        public string LongitudeEnd { get; set; }
-
-        public string Latitude { get; set; }
+        [Display(Name = "End Point")]
+        public string EndPoint { get; set; }
 
         public int? CustomerId { get; set; }
 

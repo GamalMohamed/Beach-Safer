@@ -1,6 +1,6 @@
 #include <ServoTimer2.h>
 
-// ServoTimer2 releaseServo, pullServo
+// ServoTimer2 servo
 void Servo_init()
 {
 

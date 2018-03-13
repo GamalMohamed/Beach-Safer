@@ -10,14 +10,14 @@ char *MonitorHealth()
   MAX30100_Operate(SpO2, heartBeat);
   if (SpO2 > 0 && SpO2 < 90)
   {
-    return "Drowning";
+    return DROWNING_STATE;
   }
   if (heartBeat > 0 && heartBeat <= 25)
   {
-    return "Distress";
+    return DISTRESS_STATE;
   }
 
-  return "OK";
+  return NORMAL_STATE;
 }
 
 void PushButtonISR()
@@ -69,7 +69,7 @@ void PushButtonISR()
       if (relCount > INTER_PUSHES_INTERVAL) // single push detected
       {
         Serial.println("Single push detected");
-        SendRF_message("SOS1");
+        SendRF_message(ALERT_STATE_L1);
         lockMax = true;
 
         // enable Interrupt on PIN 2
@@ -104,7 +104,7 @@ void PushButtonISR()
         {
           Serial.println("Double push detected");
           // TODO: Operate Servos!
-          SendRF_message("SOS2");
+          SendRF_message(ALERT_STATE_L2);
           lockMax = true;
           double_pressed = true;
         }
@@ -126,8 +126,6 @@ void SendRF_message(char *msg)
   {
     RF_transmit(rf_msg);
     Serial.println(rf_msg);
-    //RF_transmit(msg);
-    //Serial.println(msg);
   }
 }
 
@@ -150,7 +148,7 @@ void loop()
   if (!lockMax)
   {
     char *state = MonitorHealth();
-    if (state != "OK")
+    if (state != NORMAL_STATE)
     {
       // TODO: Operate Servos!
       SendRF_message(state);

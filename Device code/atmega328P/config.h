@@ -14,8 +14,13 @@
 #define RF_RX_PIN 4
 #define RF_TX_PIN 8
 #define RF_PTT_PIN 5 
-//#define RELEASE_SERVO_PIN ??
-//#define PULL_SERVO2_PIN ??
+//#define SERVO_PIN ??
+
+#define NORMAL_STATE "OK"
+#define ALERT_STATE_L1 "SOS1"
+#define ALERT_STATE_L2 "SOS2"
+#define DROWNING_STATE "Drowning"
+#define DISTRESS_STATE
 
 
 static inline void SmartDelay(int delayPeriod)
