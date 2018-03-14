@@ -13,6 +13,7 @@ unsigned long lastReport = 0;
 unsigned int messageCount = 1;
 IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle;
 
+
 void blinkLED()
 {
     digitalWrite(LED_PIN, LOW);

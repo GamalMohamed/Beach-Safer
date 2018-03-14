@@ -3,12 +3,12 @@
 
 // Pin layout
 #define LED_PIN 2
-#define VIBRATION_MOTOR_PIN 14
-#define GPS_TX_PIN 13
-#define GPS_RX_PIN 12
-#define RF_RX_PIN 4
+#define VIBRATION_MOTOR_PIN 4
+#define GPS_RX_PIN 13
+#define GPS_TX_PIN 12
+#define RF_RX_PIN 5
 #define RF_TX_PIN 2
-#define RF_PTT_PIN 5
+#define RF_PTT_PIN -1
 
 // Interval time(ms) for sending message to IoT Hub
 #define SENDING_INTERVAL 15000

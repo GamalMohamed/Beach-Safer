@@ -10,7 +10,7 @@ static void sendCallback(IOTHUB_CLIENT_CONFIRMATION_RESULT result, void *userCon
     }
     else
     {
-        Serial.println("Failed to send message to Azure IoT Hub");
+        Serial.println("Failed to send message to Azure IoT Hub!!!");
     }
     messagePending = false;
 }

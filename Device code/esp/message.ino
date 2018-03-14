@@ -22,7 +22,6 @@ bool isItForMe(char *rfMsg, char **myMsg)
     strcpy(temp, rfMsg);
     char *dId = strtok(temp, " ");
     *myMsg = strtok(NULL, " ");
-    Serial.println(*myMsg);
     return (strcmp(dId, DEVICE_ID) == 0) ? true : false;
 }
 
