@@ -154,6 +154,9 @@ void loop()
     if (state != NORMAL_STATE)
     {
       // TODO: Operate Servos!
+      Servo_init();
+      Servo_Operate();
+      
       SendRF_message(state);
       lockMax = true;
     }
