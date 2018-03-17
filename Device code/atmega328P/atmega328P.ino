@@ -104,6 +104,9 @@ void PushButtonISR()
         {
           Serial.println("Double push detected");
           // TODO: Operate Servos!
+          Servo_init();
+          Servo_Operate();
+          
           SendRF_message(ALERT_STATE_L2);
           lockMax = true;
           double_pressed = true;
