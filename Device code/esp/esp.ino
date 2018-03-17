@@ -10,7 +10,6 @@ bool messagePending = false;
 bool messageSending = true;
 bool alertSending = false;
 unsigned long lastReport = 0;
-unsigned int messageCount = 1;
 IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle;
 
 

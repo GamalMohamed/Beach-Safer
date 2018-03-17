@@ -1,5 +1,5 @@
 // Physical device information for board and sensor
-#define DEVICE_ID "ESP"
+#define DEVICE_ID "777"
 
 // Pin layout
 #define LED_PIN 2
@@ -13,8 +13,9 @@
 // Interval time(ms) for sending message to IoT Hub
 #define SENDING_INTERVAL 15000
 #define MESSAGE_MAX_LEN 256
-#define GPS_LOC_ACC 20
+#define GPS_LOC_ACC 25
 #define GPS_BAUD 9600
+#define GPS_DEFAULT_LOC "31.079443,29.695034"
 
 #define NORMAL_STATE "OK"
 
@@ -25,8 +26,9 @@
 
 static char *ssid = "Gamal";
 static char *pass = "12131415";
-static char *connectionString = "HostName=esp-IoTHub.azure-devices.net;DeviceId=ESP;SharedAccessKey=pfd5LETKkYRVxlvILdgkjDvkF88PPEWZvToumpWVkE8=";
+static char *connectionString = "HostName=esp-IoTHub.azure-devices.net;DeviceId=777;SharedAccessKey=5qrBA6/Yd69tdMlZFUb70IpRNpPJFEPDBKfKYB99fa8=";
 
+static unsigned int messageCount = 1;
 
 static inline void SmartDelay(int delayPeriod)
 {
