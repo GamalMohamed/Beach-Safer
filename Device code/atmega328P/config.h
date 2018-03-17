@@ -14,7 +14,7 @@
 #define RF_RX_PIN 4
 #define RF_TX_PIN 8
 #define RF_PTT_PIN 5 
-//#define SERVO_PIN ??
+#define SERVO_PIN 12
 
 #define NORMAL_STATE "OK"
 #define ALERT_STATE_L1 "SOS1"
