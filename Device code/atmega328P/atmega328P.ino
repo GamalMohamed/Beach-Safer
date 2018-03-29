@@ -12,7 +12,7 @@ char *MonitorHealth()
   {
     return DROWNING_STATE;
   }
-  if (heartBeat > 0 && heartBeat <= 25)
+  if (heartBeat > 0 && heartBeat < 25)
   {
     return DISTRESS_STATE;
   }
@@ -103,7 +103,6 @@ void PushButtonISR()
         if (!double_pressed)
         {
           Serial.println("Double push detected");
-          // TODO: Operate Servos!
           Servo_init();
           Servo_Operate();
           
@@ -153,7 +152,6 @@ void loop()
     char *state = MonitorHealth();
     if (state != NORMAL_STATE)
     {
-      // TODO: Operate Servos!
       Servo_init();
       Servo_Operate();
       
