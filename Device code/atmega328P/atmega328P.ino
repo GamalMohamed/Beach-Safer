@@ -22,7 +22,7 @@ char *MonitorHealth()
 
 void PushButtonISR()
 {
-   // interrupts settings
+  // interrupts settings
   sei();               // enable interrupts
   EIMSK &= 0b11111110; //disable int0 only
 
@@ -84,53 +84,54 @@ void PushButtonISR()
         state = 4;
       }
     }
-	
-	else if(state == 4)    // double push logic
-	{
-		if(digitalRead(PUSH_BUTTON_PIN) == HIGH)
-			relCount++;
-		else
-			relCount = 0;
-		
-		if(relCount >= REL_INTERVAL)
-		{
-			relCount = 0;
-			state = 6;
-      
-			// double push logic here
-			if (!double_pressed)
+  
+    else if(state == 4)    // double push logic
+    {
+      if(digitalRead(PUSH_BUTTON_PIN) == HIGH)
+        relCount++;
+      else
+        relCount = 0;
+    
+      if(relCount >= REL_INTERVAL)
       {
-        Serial.println("Double push detected");
-        Servo_init();
-        Servo_Operate();
-          
-        SendRF_message(ALERT_STATE_L2);
-        lockMax = true;
-        double_pressed = true;
+        relCount = 0;
+        state = 6;
+      
+        // double push logic here
+        if (!double_pressed)
+        {
+          Serial.println("Double push detected");
+          Servo_init();
+          Servo_Operate();
+            
+          SendRF_message(ALERT_STATE_L2);
+          lockMax = true;
+          double_pressed = true;
+        }
       }
-		}
-	}
+    }
     
-	else if(state == 5)   // single push logic
-	{
-		state = 6;
+    else if(state == 5)   // single push logic
+    {
+      state = 6;
     
-		// single push logic here
-   
-		Serial.println("single push");
-    SendRF_message(ALERT_STATE_L1);
-    lockMax = true;
-	}
-	
-	else  // state = 6 , finish state
-	{
-		// enable Interrupt on PIN 2
-        EIFR &= 0b11111110;
-        EIMSK |= 0b00000001;
-        return;
-	}
- } 
+      // single push logic here
+     
+      Serial.println("single push");
+      SendRF_message(ALERT_STATE_L1);
+      lockMax = true;
+    }
+  
+    else  // state = 6 , finish state
+    {
+      // enable Interrupt on PIN 2
+      EIFR &= 0b11111110;
+      EIMSK |= 0b00000001;
+      return;
+    }
+  }
 }
+
 
 void SendRF_message(char *msg)
 {
