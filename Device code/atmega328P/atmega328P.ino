@@ -22,101 +22,114 @@ char *MonitorHealth()
 
 void PushButtonISR()
 {
-  // interrupts settings
+   // interrupts settings
   sei();               // enable interrupts
   EIMSK &= 0b11111110; //disable int0 only
 
-  unsigned int pinState;
-  unsigned int pushCount = 0;
-  unsigned int relCount = 0;
-
-  while (1)
+  unsigned int state = 1;
+  unsigned int pushCount = 0; 
+  unsigned long long relCount = 0;
+  while(1)
   {
-    pinState = digitalRead(PUSH_BUTTON_PIN);
-    if (pinState == LOW)
+    if(state == 1)        //tracking first push
     {
-      pushCount++;
-      if (pushCount > PUSH_INTERVAL)
-        break;
-    }
-    else
-      pushCount = 0;
-  }
-
-  while (1)
-  {
-    pinState = digitalRead(PUSH_BUTTON_PIN);
-    if (pinState == HIGH)
-    {
-      relCount++;
-      if (relCount > REL_INTERVAL)
-        break;
-    }
-    else
-      relCount = 0;
-  }
-
-  relCount = 0;
-  pushCount = 0;
-  while (1)
-  {
-    pinState = digitalRead(PUSH_BUTTON_PIN);
-    if (pinState == HIGH)
-    {
-      relCount++;
-      pushCount = 0;
-
-      if (relCount > INTER_PUSHES_INTERVAL) // single push detected
+      if(digitalRead(PUSH_BUTTON_PIN) == LOW) // pressed
+        pushCount++;
+      else
+        pushCount = 0;
+      if(pushCount >= PUSH_INTERVAL)
       {
-        Serial.println("Single push detected");
-        SendRF_message(ALERT_STATE_L1);
-        lockMax = true;
-
-        // enable Interrupt on PIN 2
-        EIFR &= 0b11111110;
-        EIMSK |= 0b00000001;
-        return;
+        pushCount = 0;
+        state = 2;
       }
     }
-    else
-    {
-      pushCount++;
-      relCount = 0;
 
-      if (pushCount > PUSH_INTERVAL) // double push detected
-      {
-        // wait for release
+    else if(state == 2)   //tracking first release
+    {
+      if(digitalRead(PUSH_BUTTON_PIN) == HIGH) // released
+        relCount++;
+      else
         relCount = 0;
-        while (1)
-        {
-          pinState = digitalRead(PUSH_BUTTON_PIN);
-          if (pinState == HIGH)
-          {
-            relCount++;
-            if (relCount > REL_INTERVAL)
-              break;
-          }
-          else
-            relCount = 0;
-        }
+      if(relCount >= REL_INTERVAL)
+      {
+        relCount = 0;
+        state = 3;
+      }
+    }
 
-        if (!double_pressed)
-        {
-          Serial.println("Double push detected");
-          Servo_init();
-          Servo_Operate();
+    else if(state == 3)   // single and double push detection
+    {
+      if(digitalRead(PUSH_BUTTON_PIN) == LOW) // pressed
+      {
+        pushCount++;
+        relCount = 0;
+      }
+      else
+      {
+        relCount++;
+        pushCount = 0;
+      }
+
+      
+      if(relCount >= INTER_PUSHES_INTERVAL) //single push detected
+      {
+        relCount = 0;
+        pushCount = 0;
+        state = 5;
+      }
+      else if (pushCount >= PUSH_INTERVAL)  // double push detected
+      {
+        relCount = 0;
+        pushCount = 0;
+        state = 4;
+      }
+    }
+	
+	else if(state == 4)    // double push logic
+	{
+		if(digitalRead(PUSH_BUTTON_PIN) == HIGH)
+			relCount++;
+		else
+			relCount = 0;
+		
+		if(relCount >= REL_INTERVAL)
+		{
+			relCount = 0;
+			state = 6;
+      
+			// double push logic here
+			if (!double_pressed)
+      {
+        Serial.println("Double push detected");
+        Servo_init();
+        Servo_Operate();
           
-          SendRF_message(ALERT_STATE_L2);
-          lockMax = true;
-          double_pressed = true;
-        }
-        // enable Interrupt on PIN 2
+        SendRF_message(ALERT_STATE_L2);
+        lockMax = true;
+        double_pressed = true;
+      }
+		}
+	}
+    
+	else if(state == 5)   // single push logic
+	{
+		state = 6;
+    
+		// single push logic here
+   
+		Serial.println("single push");
+    SendRF_message(ALERT_STATE_L1);
+    lockMax = true;
+	}
+	
+	else  // state = 6 , finish state
+	{
+		// enable Interrupt on PIN 2
         EIFR &= 0b11111110;
         EIMSK |= 0b00000001;
         return;
-      }
-    }
-  }
+	}
+ } 
 }
 
 void SendRF_message(char *msg)
