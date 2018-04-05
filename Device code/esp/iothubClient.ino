@@ -111,6 +111,10 @@ int deviceMethodCallback(const char *methodName, const unsigned char *payload, s
     {
         vibrate();
     }
+    else if (strcmp(methodName, "alterGPSlocation") == 0)
+    {
+        AlterGPSLocation();
+    }
     else
     {
         Serial.printf("No method %s found.\r\n", methodName);

@@ -12,21 +12,29 @@ namespace SimulatedDevice
     class Program
     {
         private const string IotHubUri = "esp-IoTHub.azure-devices.net";
-        private const string DeviceKey = "kZ6ZTWce5WKQsyPW5l7voL5r4Ng4rP10IrVAzcAOQIk=";
-        private const string DeviceId = "Sim9";
-        private const int DbDeviceId = 9;
+        private const string DeviceKey = "kVaUpdJ+OTzAKjs448umoP+3NynNuC0NIesXZSdxxcE=";
+        private const string DeviceId = "Sim5";
+        private const int DbDeviceId = 5;
         private static string _state = "OK";
         private static DeviceClient _deviceClient;
         private static int _messageId = 1;
         private static bool _alert = false;
-        private static readonly List<string> Locs = new List<string>(){ "31.025254,29.615265",
-                                                                "31.019940,29.613438",
-                                                                "31.019459,29.600833",
-                                                                "31.019779,29.611176",
-                                                                "31.016278,29.603858",
-																"31.013271,29.603257",
-																"31.023188,29.610756"
+        private static string _loc;
+        private static readonly List<string> OriginalLocs =
+                                             new List<string>(){
+                                                                "31.025254,29.615265", //0 Sim1
+                                                                "31.019940,29.613438", //1 Sim2
+                                                                "31.019459,29.600833", //2 Sim4
+                                                                "31.019779,29.611176", //3 Sim5
+                                                                "31.016278,29.603858", //4 Sim9
+																"31.013271,29.603257", //5 ESP
+																"31.023188,29.610756"  //6 Extra!
                                                               };
+        private static readonly List<string> UpdatedLocs = 
+                                             new List<string>(){
+                                                                "31.021174,29.595426", // 0 Sim4`
+                                                                "31.020964,29.607270"  // 1 Sim5`
+                                                                };
 
 
         private static Task<MethodResponse> SayLoL(MethodRequest methodRequest, object userContext)
@@ -39,16 +47,21 @@ namespace SimulatedDevice
         {
             while (true)
             {
-                if (_messageId > 4)
+                if (_messageId > 2)
                 {
-                    _alert = true;
-                    _state = "Drowning";
+                    //_alert = true;
+                    //_state = "Drowning";
+                    _loc = UpdatedLocs[1];
+                }
+                else
+                {
+                    _loc = OriginalLocs[3];
                 }
                 var telemetryDataPoint = new
                 {
                     messageId = _messageId++,
                     deviceId = DbDeviceId,
-                    location = Locs[4],
+                    location = _loc,
                     state = _state
                 };
                 var messageString = JsonConvert.SerializeObject(telemetryDataPoint);

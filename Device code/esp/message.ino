@@ -3,11 +3,17 @@
 bool RFMsgReceived = false;
 char *state;
 int sendingInterval = SENDING_INTERVAL;
+bool useGPSReading = true;
 
 inline void setState(char *rf_state)
 {
     state = rf_state;
     RFMsgReceived = true;
+}
+
+inline void AlterGPSLocation()
+{
+    useGPSReading = !useGPSReading;
 }
 
 inline bool isRFMsgReceived()
@@ -38,10 +44,11 @@ char *checkRF()
     return NORMAL_STATE;
 }
 
-char *readGPS(char *location)
+void readGPS(char *location)
 {
     char latitude[10], longitude[10];
-    if (messageCount > 2)
+
+    if (!useGPSReading)
     {
         sprintf(location, "%s", GPS_DEFAULT_LOC);
     }
@@ -50,10 +57,8 @@ char *readGPS(char *location)
         if (getGPSCoordinates(latitude, longitude))
         {
             sprintf(location, "%s,%s", latitude, longitude);
-            return location;
         }
     }
-    return location;
 }
 
 char *readMessage(int messageId, char *payload)
