@@ -7,7 +7,7 @@
 //push button constants
 #define PUSH_INTERVAL 10000
 #define REL_INTERVAL 5000
-#define INTER_PUSHES_INTERVAL 33000
+#define INTER_PUSHES_INTERVAL 50000
 
 // Pin Layout configuration
 #define PUSH_BUTTON_PIN 2
