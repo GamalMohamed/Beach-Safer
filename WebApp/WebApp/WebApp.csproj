@@ -200,7 +200,11 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BeachesController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\DevicesController.cs" />
     <Compile Include="Controllers\DeviceUserApiController.cs" />
+    <Compile Include="Controllers\DeviceUsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -226,9 +230,30 @@
     <Compile Include="Migrations\201803131423392_UpdatedBeachProps.Designer.cs">
       <DependentUpon>201803131423392_UpdatedBeachProps.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804260915532_ChangedSubscriptionToEnum.cs" />
+    <Compile Include="Migrations\201804260915532_ChangedSubscriptionToEnum.Designer.cs">
+      <DependentUpon>201804260915532_ChangedSubscriptionToEnum.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804271920158_EmergencyPhoneAdded.cs" />
+    <Compile Include="Migrations\201804271920158_EmergencyPhoneAdded.Designer.cs">
+      <DependentUpon>201804271920158_EmergencyPhoneAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804271941230_LastSeaPointAdded.cs" />
+    <Compile Include="Migrations\201804271941230_LastSeaPointAdded.Designer.cs">
+      <DependentUpon>201804271941230_LastSeaPointAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804280934598_AccessCodeAndCutomerIds.cs" />
+    <Compile Include="Migrations\201804280934598_AccessCodeAndCutomerIds.Designer.cs">
+      <DependentUpon>201804280934598_AccessCodeAndCutomerIds.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804281037137_RedefiningRelations.cs" />
+    <Compile Include="Migrations\201804281037137_RedefiningRelations.Designer.cs">
+      <DependentUpon>201804281037137_RedefiningRelations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\CustomerAccess.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -295,6 +320,23 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Customers\Create.cshtml" />
+    <Content Include="Views\Customers\Details.cshtml" />
+    <Content Include="Views\Customers\Edit.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\Beaches\Create.cshtml" />
+    <Content Include="Views\Beaches\Details.cshtml" />
+    <Content Include="Views\Beaches\Edit.cshtml" />
+    <Content Include="Views\Beaches\Index.cshtml" />
+    <Content Include="Views\DeviceUsers\Create.cshtml" />
+    <Content Include="Views\DeviceUsers\Details.cshtml" />
+    <Content Include="Views\DeviceUsers\Edit.cshtml" />
+    <Content Include="Views\DeviceUsers\Index.cshtml" />
+    <Content Include="Views\Devices\Create.cshtml" />
+    <Content Include="Views\Devices\Delete.cshtml" />
+    <Content Include="Views\Devices\Details.cshtml" />
+    <Content Include="Views\Devices\Edit.cshtml" />
+    <Content Include="Views\Devices\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -327,6 +369,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803131423392_UpdatedBeachProps.resx">
       <DependentUpon>201803131423392_UpdatedBeachProps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804260915532_ChangedSubscriptionToEnum.resx">
+      <DependentUpon>201804260915532_ChangedSubscriptionToEnum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804271920158_EmergencyPhoneAdded.resx">
+      <DependentUpon>201804271920158_EmergencyPhoneAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804271941230_LastSeaPointAdded.resx">
+      <DependentUpon>201804271941230_LastSeaPointAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804280934598_AccessCodeAndCutomerIds.resx">
+      <DependentUpon>201804280934598_AccessCodeAndCutomerIds.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804281037137_RedefiningRelations.resx">
+      <DependentUpon>201804281037137_RedefiningRelations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

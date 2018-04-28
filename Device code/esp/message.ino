@@ -36,6 +36,7 @@ char *checkRF()
     if (rfMsg != "")
     {
         char *myMsg = "";
+        Serial.println(rfMsg);
         if (isItForMe(rfMsg, &myMsg))
         {
             return myMsg;
@@ -72,7 +73,7 @@ char *readMessage(int messageId, char *payload)
     }
     StaticJsonBuffer<MESSAGE_MAX_LEN> jsonBuffer;
     JsonObject &root = jsonBuffer.createObject();
-    root["deviceId"] = DEVICE_ID;
+    root["deviceId"] = DB_DEVICE_ID;
     root["messageId"] = messageId;
 
     if (state == NULL)

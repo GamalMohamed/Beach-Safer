@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -8,7 +9,7 @@ namespace WebApp.Models
 {
     public class DeviceUser
     {
-        [Key]
+        [Key, ForeignKey("Device")]
         public int Id { get; set; }
 
         [Required]
@@ -25,6 +26,9 @@ namespace WebApp.Models
         [Phone]
         public string Phone { get; set; }
 
+        [Phone]
+        public string EmergencyPhone { get; set; }
+
         public string Gender { get; set; }
 
         [Display(Name = "Swimming Skills")]
@@ -32,8 +36,16 @@ namespace WebApp.Models
 
         public string Notes { get; set; }
 
+        public int DeviceId { get; set; }
+
+        [ForeignKey("DeviceId")]
         public virtual Device Device { get; set; }
-        
+
+        public int? CustomerId { get; set; }
+
+        [ForeignKey("CustomerId")]
+        public virtual Customer Customer { get; set; }
+
     }
 
     

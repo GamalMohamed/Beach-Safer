@@ -7,10 +7,15 @@ namespace WebApp.Models
 {
     public class Device
     {
-        [Key, ForeignKey("DeviceUser")]
+        [Key]
         public int Id { get; set; }
 
         public bool? IsOwned { get; set; }
+
+        public int? CustomerId { get; set; }
+
+        [ForeignKey("CustomerId")]
+        public virtual Customer Customer { get; set; }
 
         public int? DeviceUserId { get; set; }
 

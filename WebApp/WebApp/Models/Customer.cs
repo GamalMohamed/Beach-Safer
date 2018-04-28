@@ -15,12 +15,28 @@ namespace WebApp.Models
 
         public string Logo { get; set; }
 
-        public string SubscriptionType { get; set; }
+        public SubscriptionType Subscription { get; set; }
 
         public DateTime? JoinDate { get; set; }
 
+        public int? CustomerAccessId { get; set; }
+
+        [ForeignKey("CustomerAccessId")]
+        public virtual CustomerAccess CustomerAccess { get; set; }
+
         public virtual ICollection<Beach> Beaches { get; set; }
 
+        public virtual ICollection<DeviceUser> DeviceUsers { get; set; }
+
+        public virtual ICollection<Device> Devices { get; set; }
+
+    }
+
+    public enum SubscriptionType
+    {
+        Basic,
+        Premium,
+        Ultimate
     }
 
 
@@ -38,9 +54,13 @@ namespace WebApp.Models
         [Display(Name = "End Point")]
         public string EndPoint { get; set; }
 
+        [Display(Name = "Last Sea point")]
+        public string LastSeaPoint { get; set; }
+
         public int? CustomerId { get; set; }
 
         [ForeignKey("CustomerId")]
         public virtual Customer Customer { get; set; }
     }
+
 }
