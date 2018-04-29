@@ -26,9 +26,13 @@ namespace WebApp.Models
         }
 
         public DbSet<Customer> Customers { get; set; }
+
         public DbSet<Beach> Beaches { get; set; }
+
         public DbSet<DeviceUser> DeviceUsers { get; set; }
+
         public DbSet<Device> Devices { get; set; }
+
         public DbSet<DeviceLog> DeviceLogs { get; set; }
 
         public DbSet<CustomerAccess> CustomerAccesses { get; set; }

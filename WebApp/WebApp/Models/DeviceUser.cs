@@ -9,7 +9,7 @@ namespace WebApp.Models
 {
     public class DeviceUser
     {
-        [Key, ForeignKey("Device")]
+        [Key]
         public int Id { get; set; }
 
         [Required]
@@ -35,11 +35,8 @@ namespace WebApp.Models
         public string SwimmingSkills { get; set; }
 
         public string Notes { get; set; }
-
+        
         public int DeviceId { get; set; }
-
-        [ForeignKey("DeviceId")]
-        public virtual Device Device { get; set; }
 
         public int? CustomerId { get; set; }
 

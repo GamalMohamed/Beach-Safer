@@ -11,27 +11,39 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.DeviceUser.Name)
+            @Html.DisplayNameFor(model => model.Id)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.DeviceUser.Name)
+            @Html.DisplayFor(model => model.Id)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.IsOwned)
+            @Html.Label("Device Username")
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.IsOwned)
+            @ViewData["DeviceUserName"].ToString()
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DeviceUserId)
+            @Html.DisplayNameFor(model => model.Customer)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.DeviceUserId)
+            @(Model.CustomerId == null ? Html.Raw("NA") : Html.DisplayFor(model => model.Customer.Name))
+
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeviceType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DeviceType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeviceState)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DeviceState)
         </dd>
 
     </dl>

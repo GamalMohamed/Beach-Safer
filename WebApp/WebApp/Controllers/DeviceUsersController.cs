@@ -12,13 +12,12 @@ namespace WebApp.Controllers
 {
     public class DeviceUsersController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly ApplicationDbContext _db = new ApplicationDbContext();
 
         // GET: DeviceUsers
         public ActionResult Index()
         {
-            //var deviceUsers = db.DeviceUsers.Include(d => d.Device);
-            return View(db.DeviceUsers.ToList());
+            return View(_db.DeviceUsers.ToList());
         }
 
         // GET: DeviceUsers/Details/5
@@ -28,7 +27,7 @@ namespace WebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DeviceUser deviceUser = db.DeviceUsers.Find(id);
+            var deviceUser = _db.DeviceUsers.Find(id);
             if (deviceUser == null)
             {
                 return HttpNotFound();
@@ -39,18 +38,19 @@ namespace WebApp.Controllers
         // GET: DeviceUsers/Create
         public ActionResult Create()
         {
+            ViewBag.CustomersList = new SelectList(_db.Customers.ToList(), "Id", "Name");
             return View();
         }
 
         // POST: DeviceUsers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name,ProfilePic,Age,Email,Phone,EmergencyPhone,Gender,SwimmingSkills,Notes")] DeviceUser deviceUser)
+        public ActionResult Create(DeviceUser deviceUser)
         {
             if (ModelState.IsValid)
             {
-                db.DeviceUsers.Add(deviceUser);
-                db.SaveChanges();
+                _db.DeviceUsers.Add(deviceUser);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(deviceUser);
@@ -63,23 +63,25 @@ namespace WebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DeviceUser deviceUser = db.DeviceUsers.Find(id);
+            var deviceUser = _db.DeviceUsers.Find(id);
             if (deviceUser == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.CustomersList = new SelectList(_db.Customers.ToList(), "Id", "Name");
+            ViewBag.DevicesList = new SelectList(_db.Devices.ToList(), "Id", "Id");
             return View(deviceUser);
         }
 
         // POST: DeviceUsers/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Name,ProfilePic,Age,Email,Phone,EmergencyPhone,Gender,SwimmingSkills,Notes")] DeviceUser deviceUser)
+        public ActionResult Edit(DeviceUser deviceUser)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(deviceUser).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(deviceUser).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(deviceUser);
@@ -92,13 +94,13 @@ namespace WebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DeviceUser deviceUser = db.DeviceUsers.Find(id);
+            var deviceUser = _db.DeviceUsers.Find(id);
             if (deviceUser == null)
             {
                 return HttpNotFound();
             }
-            db.DeviceUsers.Remove(deviceUser);
-            db.SaveChanges();
+            _db.DeviceUsers.Remove(deviceUser);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -106,7 +108,7 @@ namespace WebApp.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

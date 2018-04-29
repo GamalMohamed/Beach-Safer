@@ -12,13 +12,12 @@ namespace WebApp.Controllers
 {
     public class DevicesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly ApplicationDbContext _db = new ApplicationDbContext();
 
         // GET: Devices
         public ActionResult Index()
         {
-            var devices = db.Devices.Include(d => d.DeviceUser);
-            return View(devices.ToList());
+            return View(_db.Devices.ToList());
         }
 
         // GET: Devices/Details/5
@@ -28,10 +27,20 @@ namespace WebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Device device = db.Devices.Find(id);
+            var device = _db.Devices.Find(id);
             if (device == null)
             {
                 return HttpNotFound();
+            }
+
+            var deviceUser = _db.DeviceUsers.Find(device.DeviceUserId);
+            if (deviceUser != null)
+            {
+                ViewData["DeviceUserName"] = deviceUser.Name;
+            }
+            else
+            {
+                ViewData["DeviceUserName"] = "NA";
             }
             return View(device);
         }
@@ -39,23 +48,22 @@ namespace WebApp.Controllers
         // GET: Devices/Create
         public ActionResult Create()
         {
-            ViewBag.Id = new SelectList(db.DeviceUsers, "Id", "Name");
+            ViewBag.CustomersList = new SelectList(_db.Customers.ToList(), "Id", "Name");
             return View();
         }
 
         // POST: Devices/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IsOwned,DeviceUserId")] Device device)
+        public ActionResult Create(Device device)
         {
             if (ModelState.IsValid)
             {
-                db.Devices.Add(device);
-                db.SaveChanges();
+                _db.Devices.Add(device);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id = new SelectList(db.DeviceUsers, "Id", "Name", device.Id);
             return View(device);
         }
 
@@ -66,54 +74,99 @@ namespace WebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Device device = db.Devices.Find(id);
+            var device = _db.Devices.Find(id);
             if (device == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Id = new SelectList(db.DeviceUsers, "Id", "Name", device.Id);
+
+            var inactiveUsers = _db.DeviceUsers.Where(e => e.DeviceId == 0).ToList();
+            var currentDeviceUser = _db.DeviceUsers.Find(device.DeviceUserId);
+            if (currentDeviceUser != null)
+            {
+                inactiveUsers.Add(currentDeviceUser);
+            }
+            ViewBag.DeviceUsersList = new SelectList(inactiveUsers, "Id", "Name");
+            ViewBag.CustomersList = new SelectList(_db.Customers.ToList(), "Id", "Name");
+            if (device.DeviceUserId != null)
+            {
+                TempData["PrevDeviceUserId"] = device.DeviceUserId;
+            }
             return View(device);
         }
 
         // POST: Devices/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IsOwned,DeviceUserId")] Device device)
+        public ActionResult Edit(Device device)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(device).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.Id = new SelectList(db.DeviceUsers, "Id", "Name", device.Id);
-            return View(device);
-        }
+                _db.Entry(device).State = EntityState.Modified;
+                _db.SaveChanges();
 
-        // GET: Devices/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (!TempData.ContainsKey("PrevDeviceUserId")) // No prev user === 1st time user registration
+                {
+                    var deviceUser = _db.DeviceUsers.Find(device.DeviceUserId);
+                    if (deviceUser != null)
+                    {
+                        deviceUser.DeviceId = device.Id;
+                        _db.SaveChanges();
+                    }
+                }
+                else
+                {
+                    var prevDeviceUserId = int.Parse(TempData["PrevDeviceUserId"].ToString());
+                    if (device.DeviceUserId != prevDeviceUserId)
+                    {
+                        var deviceUser = _db.DeviceUsers.Find(prevDeviceUserId); // decrement prev
+                        if (deviceUser != null)
+                        {
+                            deviceUser.DeviceId = 0;
+                            _db.SaveChanges();
+                        }
+
+                        if (device.DeviceUserId != null) // increment new
+                        {
+                            deviceUser = _db.DeviceUsers.Find(device.DeviceUserId);
+                            if (deviceUser != null)
+                            {
+                                deviceUser.DeviceId = device.Id;
+                                _db.SaveChanges();
+                            }
+                        }
+                    }
+                }
+
             }
-            Device device = db.Devices.Find(id);
-            if (device == null)
-            {
-                return HttpNotFound();
-            }
-            db.Devices.Remove(device);
-            db.SaveChanges();
+
             return RedirectToAction("Index");
-        }
-        
-        protected override void Dispose(bool disposing)
+        }    
+
+    // GET: Devices/Delete/5
+    public ActionResult Delete(int? id)
+    {
+        if (id == null)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
+        var device = _db.Devices.Find(id);
+        if (device == null)
+        {
+            return HttpNotFound();
+        }
+        _db.Devices.Remove(device);
+        _db.SaveChanges();
+        return RedirectToAction("Index");
     }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _db.Dispose();
+        }
+        base.Dispose(disposing);
+    }
+}
 }

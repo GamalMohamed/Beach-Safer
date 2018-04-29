@@ -17,8 +17,7 @@ namespace WebApp.Controllers
         public string GenerateAccessCode(int id)
         {
             var rand = new Random(DateTime.Now.Millisecond);
-            var accessCode = id + rand.Next().ToString();
-            return accessCode;
+            return rand.Next().ToString();
         }
 
         // GET: Customers

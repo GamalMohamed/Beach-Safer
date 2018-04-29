@@ -10,7 +10,11 @@ namespace WebApp.Models
         [Key]
         public int Id { get; set; }
 
-        public bool? IsOwned { get; set; }
+        [Display(Name = "Device State")]
+        public DeviceState DeviceState { get; set; }
+
+        [Display(Name = "Device Type")]
+        public DeviceType DeviceType { get; set; }
 
         public int? CustomerId { get; set; }
 
@@ -19,10 +23,21 @@ namespace WebApp.Models
 
         public int? DeviceUserId { get; set; }
 
-        [ForeignKey("DeviceUserId")]
-        public virtual DeviceUser DeviceUser { get; set; }
-
         public virtual ICollection<DeviceLog> DeviceLogs { get; set; }
+    }
+
+    public enum DeviceState
+    {
+        InStock,
+        Sold,
+        Rented,
+        Suspended
+    }
+
+    public enum DeviceType
+    {
+        Wearable,
+        Drone
     }
 
     public class DeviceLog

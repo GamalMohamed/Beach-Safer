@@ -25,7 +25,7 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            var deviceUser = _db.DeviceUsers.Find(device.DeviceUser.Id);
+            var deviceUser = _db.DeviceUsers.Find(device.DeviceUserId);
             if (deviceUser == null)
             {
                 return NotFound();

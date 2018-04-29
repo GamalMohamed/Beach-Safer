@@ -19,9 +19,6 @@ namespace WebApp.Models
 
         public DateTime? JoinDate { get; set; }
 
-        public int? CustomerAccessId { get; set; }
-
-        [ForeignKey("CustomerAccessId")]
         public virtual CustomerAccess CustomerAccess { get; set; }
 
         public virtual ICollection<Beach> Beaches { get; set; }

@@ -7,13 +7,13 @@ namespace WebApp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class RenamedStatusToState : IMigrationMetadata
+    public sealed partial class DbReborn : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(RenamedStatusToState));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(DbReborn));
         
         string IMigrationMetadata.Id
         {
-            get { return "201802171526163_RenamedStatusToState"; }
+            get { return "201804292048231_DbReborn"; }
         }
         
         string IMigrationMetadata.Source

@@ -42,6 +42,38 @@
             @Html.DisplayFor(model => model.JoinDate)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerAccess.AccessCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerAccess.AccessCode)
+        </dd>
+
+        <dt>
+            @Html.Label("Number of Beaches")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Beaches.Count)
+        </dd>
+
+        <dt>
+            @Html.Label("Number of registered users")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeviceUsers.Count)
+        </dd>
+
+        <dt>
+            @Html.Label("Number of registered Devices")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Devices.Count)
+        </dd>
+
     </dl>
 </div>
 <p>

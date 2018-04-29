@@ -12,13 +12,12 @@ namespace WebApp.Controllers
 {
     public class BeachesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly ApplicationDbContext _db = new ApplicationDbContext();
 
         // GET: Beaches
         public ActionResult Index()
         {
-            var beaches = db.Beaches.Include(b => b.Customer);
-            return View(beaches.ToList());
+            return View(_db.Beaches.ToList());
         }
 
         // GET: Beaches/Details/5
@@ -28,7 +27,7 @@ namespace WebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Beach beach = db.Beaches.Find(id);
+            Beach beach = _db.Beaches.Find(id);
             if (beach == null)
             {
                 return HttpNotFound();
@@ -39,18 +38,19 @@ namespace WebApp.Controllers
         // GET: Beaches/Create
         public ActionResult Create()
         {
+            ViewBag.CustomersList = new SelectList(_db.Customers.ToList(), "Id", "Name");
             return View();
         }
 
         // POST: Beaches/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name,StartPoint,EndPoint,LastSeaPoint")] Beach beach)
+        public ActionResult Create(Beach beach)
         {
             if (ModelState.IsValid)
             {
-                db.Beaches.Add(beach);
-                db.SaveChanges();
+                _db.Beaches.Add(beach);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -64,23 +64,24 @@ namespace WebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Beach beach = db.Beaches.Find(id);
+            Beach beach = _db.Beaches.Find(id);
             if (beach == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.CustomersList = new SelectList(_db.Customers.ToList(), "Id", "Name");
             return View(beach);
         }
 
         // POST: Beaches/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Name,StartPoint,EndPoint,LastSeaPoint")] Beach beach)
+        public ActionResult Edit(Beach beach)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(beach).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(beach).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(beach);
@@ -93,13 +94,13 @@ namespace WebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Beach beach = db.Beaches.Find(id);
+            Beach beach = _db.Beaches.Find(id);
             if (beach == null)
             {
                 return HttpNotFound();
             }
-            db.Beaches.Remove(beach);
-            db.SaveChanges();
+            _db.Beaches.Remove(beach);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -107,7 +108,7 @@ namespace WebApp.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
