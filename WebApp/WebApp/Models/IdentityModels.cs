@@ -35,7 +35,7 @@ namespace WebApp.Models
 
         public DbSet<DeviceLog> DeviceLogs { get; set; }
 
-        public DbSet<CustomerAccess> CustomerAccesses { get; set; }
+        public DbSet<BeachAccess> BeachAccesses { get; set; }
 
         public static ApplicationDbContext Create()
         {

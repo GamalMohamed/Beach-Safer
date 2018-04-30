@@ -58,8 +58,7 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 customer.JoinDate = DateTime.Now;
-                customer.CustomerAccess = new CustomerAccess() { AccessCode = GenerateAccessCode(customer.Id) };
-
+                
                 if (uploadFile?.ContentLength > 0)
                 {
                     var extension = Path.GetExtension(uploadFile.FileName);

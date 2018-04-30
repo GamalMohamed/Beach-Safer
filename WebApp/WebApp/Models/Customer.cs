@@ -19,8 +19,6 @@ namespace WebApp.Models
 
         public DateTime? JoinDate { get; set; }
 
-        public virtual CustomerAccess CustomerAccess { get; set; }
-
         public virtual ICollection<Beach> Beaches { get; set; }
 
         public virtual ICollection<DeviceUser> DeviceUsers { get; set; }
@@ -58,6 +56,8 @@ namespace WebApp.Models
 
         [ForeignKey("CustomerId")]
         public virtual Customer Customer { get; set; }
+
+        public virtual BeachAccess BeachAccess { get; set; }
     }
 
 }

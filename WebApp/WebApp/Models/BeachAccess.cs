@@ -7,19 +7,16 @@ using System.Web;
 
 namespace WebApp.Models
 {
-    public class CustomerAccess
+    public class BeachAccess
     {
-        [Key, ForeignKey("Customer")]
+        [Key, ForeignKey("Beach")]
         public int Id { get; set; }
 
         public string AccessCode { get; set; }
 
         public string AccessCodeHash { get; set; }
 
-        public int? CustomerId { get; set; }
-
-        [ForeignKey("CustomerId")]
-        public virtual Customer Customer { get; set; }
+        public virtual Beach Beach { get; set; }
     
     }
 }

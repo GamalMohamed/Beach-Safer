@@ -14,6 +14,13 @@ namespace WebApp.Controllers
     {
         private readonly ApplicationDbContext _db = new ApplicationDbContext();
 
+
+        public string GenerateAccessCode(int id)
+        {
+            var rand = new Random(DateTime.Now.Millisecond);
+            return rand.Next().ToString();
+        }
+
         // GET: Beaches
         public ActionResult Index()
         {
@@ -49,6 +56,10 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                beach.BeachAccess = new BeachAccess()
+                {
+                    Id = beach.Id, AccessCode = GenerateAccessCode(beach.Id)
+                };
                 _db.Beaches.Add(beach);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
