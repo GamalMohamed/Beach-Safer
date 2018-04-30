@@ -34,10 +34,9 @@ namespace WebApp.Controllers
             var deviceUserVm = new DeviceUserViewModel()
             {
                 Name = deviceUser.Name,
-                Email = deviceUser.Email,
                 Gender = deviceUser.Gender,
                 Age = deviceUser.Age,
-                Phone = deviceUser.Phone,
+                EmergencyPhone = deviceUser.EmergencyPhone,
                 ProfilePic = deviceUser.ProfilePic,
                 SwimmingSkills = deviceUser.SwimmingSkills,
                 Notes = deviceUser.Notes
