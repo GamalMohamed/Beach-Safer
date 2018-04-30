@@ -13,6 +13,9 @@ namespace WebApp.Models
         [Required]
         public string Name { get; set; }
 
+        [EmailAddress]
+        public string Email { get; set; }
+
         public string Logo { get; set; }
 
         public SubscriptionType Subscription { get; set; }
