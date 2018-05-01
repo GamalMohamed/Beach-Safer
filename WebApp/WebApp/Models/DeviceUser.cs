@@ -26,7 +26,7 @@ namespace WebApp.Models
         [Phone]
         public string Phone { get; set; }
 
-        [Phone]
+        [Phone, Display(Name = "Emergency Phone")]
         public string EmergencyPhone { get; set; }
 
         public string Gender { get; set; }

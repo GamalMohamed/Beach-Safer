@@ -13,6 +13,7 @@ using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
+    [AllowAnonymous]
     public class DeviceUserApiController : ApiController
     {
         private readonly ApplicationDbContext _db = new ApplicationDbContext();

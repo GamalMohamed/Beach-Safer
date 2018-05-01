@@ -10,6 +10,7 @@ using WebApp.Models;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class DevicesController : Controller
     {
         private readonly ApplicationDbContext _db = new ApplicationDbContext();
