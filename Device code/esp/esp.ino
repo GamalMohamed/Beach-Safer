@@ -74,7 +74,10 @@ void loop()
         {
             char messagePayload[MESSAGE_MAX_LEN];
             char *alert = readMessage(messageCount, messagePayload);
-            sendMessage(iotHubClientHandle, messagePayload, alert);
+            if(sendMessage(iotHubClientHandle, messagePayload, alert) && alertSending)
+            {
+                messageSending = false;
+            }
             messageCount++;
             SmartDelay(1000);
         }

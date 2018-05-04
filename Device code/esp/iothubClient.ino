@@ -1,5 +1,6 @@
 const char *onSuccess = "\"Successfully invoke device method\"";
 const char *notFound = "\"No method found\"";
+bool messageSuccess = true;
 
 static void sendCallback(IOTHUB_CLIENT_CONFIRMATION_RESULT result, void *userContextCallback)
 {
@@ -7,20 +8,23 @@ static void sendCallback(IOTHUB_CLIENT_CONFIRMATION_RESULT result, void *userCon
     {
         Serial.println("Message sent successfully to Azure IoT Hub!");
         blinkLED();
+        messageSuccess = true;
     }
     else
     {
         Serial.println("Failed to send message to Azure IoT Hub!!!");
+        messageSuccess = false;
     }
     messagePending = false;
 }
 
-static void sendMessage(IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle, char *buffer, const char *alert)
+static bool sendMessage(IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle, char *buffer, const char *alert)
 {
     IOTHUB_MESSAGE_HANDLE messageHandle = IoTHubMessage_CreateFromByteArray((const unsigned char *)buffer, strlen(buffer));
     if (messageHandle == NULL)
     {
         Serial.println("Unable to create a new IoTHubMessage.");
+        return false;
     }
     else
     {
@@ -28,12 +32,14 @@ static void sendMessage(IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle, char *buffer
         if (Map_AddOrUpdate(propMap, "Alert", alert) != MAP_OK)
         {
             Serial.println("ERROR: Map_AddOrUpdate Failed!!");
+            return false;
         }
 
         Serial.printf("Sending message: %s.\r\n", buffer);
         if (IoTHubClient_LL_SendEventAsync(iotHubClientHandle, messageHandle, sendCallback, NULL) != IOTHUB_CLIENT_OK)
         {
             Serial.println("Failed to hand over the message to IoTHubClient.");
+            return false;
         }
         else
         {
@@ -43,6 +49,7 @@ static void sendMessage(IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle, char *buffer
 
         IoTHubMessage_Destroy(messageHandle);
     }
+    return messageSuccess;
 }
 
 void start()

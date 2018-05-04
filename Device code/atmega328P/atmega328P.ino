@@ -2,19 +2,28 @@
 
 bool volatile lockMax = false; // HACK: Ignore Max30100 once successfully operating RF
 bool volatile double_pressed = false;
+int dangerCounter_SpO2 = 0;
+int dangerCounter_HeartRate = 0;
 
 char *MonitorHealth()
 {
-  // TODO [Optional]: More optimzing better to be added
   int SpO2, heartBeat;
   MAX30100_Operate(SpO2, heartBeat);
   if (SpO2 > 0 && SpO2 < 90)
   {
-    return DROWNING_STATE;
+    dangerCounter_SpO2++;
+    if(dangerCounter_SpO2 >= 3)
+    {
+      return DROWNING_STATE;
+    }
   }
-  if (heartBeat > 0 && heartBeat < 25)
+  if (heartBeat > 0 && heartBeat < 30 )
   {
-    return DISTRESS_STATE;
+    dangerCounter_HeartRate++;
+    if(dangerCounter_HeartRate >= 3)
+    {
+      return DISTRESS_STATE;
+    }
   }
 
   return NORMAL_STATE;
@@ -160,7 +169,6 @@ void setup()
 
 void loop()
 {
-
   if (!lockMax)
   {
     char *state = MonitorHealth();

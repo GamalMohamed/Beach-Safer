@@ -97,6 +97,25 @@ void MAX30100_Operate(int &SpO2, int &heartBeat)
     InitialDisplay();
   }
 
-  SpO2 = average_SpO2;
-  heartBeat = average_beat;
+  if (average_SpO2 > 0 && average_beat > 0)
+  {
+    SpO2 = average_SpO2 + 1; // adding +1% for any other possible error
+    if (average_beat < 50)
+    {
+      average_beat += 20;
+    }
+    else if (average_beat > 110)
+    {
+      average_beat = 110;
+    }
+    else
+    {
+      heartBeat = average_beat;
+    }
+  }
+  else
+  {
+    SpO2 = average_SpO2;
+    heartBeat = average_beat;
+  }
 }

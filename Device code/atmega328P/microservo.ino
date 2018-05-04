@@ -15,4 +15,5 @@ void Servo_Operate()
   servo.write(2500);
   SmartDelay(1000);
   servo.detach();
+  Serial.println("DDDDDDDDDDD");
 }
