@@ -1,6 +1,7 @@
 // Physical device information for board and sensor
-#define DEVICE_ID "ESP"
-#define DB_DEVICE_ID "2"
+#define DEVICE_ID "ESP12F"
+#define DB_DEVICE_ID 2
+#define TEMP_MOCK_DEVICE_ID "ESP"
 
 // Pin layout
 #define LED_PIN 2
@@ -27,7 +28,7 @@
 
 static char *ssid = "Jimmy2";
 static char *pass = "12345678900";
-static char *connectionString = "HostName=esp-IoTHub.azure-devices.net;DeviceId=ESP;SharedAccessKey=tddI+gOxxFFyyNmyTRb5Zt2BFkZ9Sa/oHiwpXtfS6Qo=";
+static char *connectionString = "HostName=esp-IoTHub.azure-devices.net;DeviceId=ESP12F;SharedAccessKey=aftzwu/tZRjLx46Pn4/2jdiOLlS0ohv553OB1dChYBI=";
 
 static unsigned int messageCount = 1;
 

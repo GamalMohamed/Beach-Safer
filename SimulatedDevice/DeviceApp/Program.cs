@@ -12,9 +12,9 @@ namespace SimulatedDevice
     class Program
     {
         private const string IotHubUri = "esp-IoTHub.azure-devices.net";
-        private const string DeviceKey = "ImF+/u0pLdZo3BkSXaUdNf5QdtjJLhQsq2z/aY5mQ1c=";
-        private const string DeviceId = "Sim1";
-        private const int DbDeviceId = 1;
+        private const string DeviceKey = "gNB9EfjM1NjPvkI23SlFn+rl2nHkiI3pk++WByrSNBw=";
+        private const string DeviceId = "Sim8";
+        private const int DbDeviceId = 9;
         private static string _state = "OK";
         private static DeviceClient _deviceClient;
         private static int _messageId = 1;
@@ -36,7 +36,7 @@ namespace SimulatedDevice
                                                               };
         private static readonly List<string> UpdatedLocs = 
                                              new List<string>(){
-                                                                "31.021174,29.595426", // 0 Sim3`
+                                                                "31.021174,29.595426", // 0 Sim6`
                                                                 "31.020964,29.607270"  // 1 Sim4`
                                                                 };
 
@@ -51,18 +51,19 @@ namespace SimulatedDevice
         {
             while (true)
             {
-                if (_messageId > 5)
+                if (_messageId > 2)
                 {
                     _alert = true;
                     //_state = "Drowning";
                     //_state = "SOS2";
-                    //_state = "SOS2";
-                    //_loc = UpdatedLocs[1];
+                    _state = "SOS1";
+                    //_loc = UpdatedLocs[0];
                 }
                 else
                 {
-                    _loc = OriginalLocs[0];
+                    _loc = OriginalLocs[7];
                 }
+                //_loc = OriginalLocs[10];
                 var telemetryDataPoint = new
                 {
                     messageId = _messageId++,
@@ -83,7 +84,7 @@ namespace SimulatedDevice
                 await _deviceClient.SendEventAsync(message);
                 Console.WriteLine("{0} >> Sending message: {1}", DateTime.Now, messageString);
 
-                await Task.Delay(3000);
+                await Task.Delay(15000);
             }
         }
 

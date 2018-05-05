@@ -3,7 +3,7 @@
 bool RFMsgReceived = false;
 char *state;
 int sendingInterval = SENDING_INTERVAL;
-bool useGPSReading = true;
+bool useGPSReading = false;
 
 inline void setState(char *rf_state)
 {
@@ -27,7 +27,7 @@ bool isItForMe(char *rfMsg, char **myMsg)
     strcpy(temp, rfMsg);
     char *dId = strtok(temp, " ");
     *myMsg = strtok(NULL, " ");
-    return (strcmp(dId, DEVICE_ID) == 0) ? true : false;
+    return (strcmp(dId, TEMP_MOCK_DEVICE_ID) == 0) ? true : false;
 }
 
 char *checkRF()
@@ -36,7 +36,6 @@ char *checkRF()
     if (rfMsg != "")
     {
         char *myMsg = "";
-        Serial.println(rfMsg);
         if (isItForMe(rfMsg, &myMsg))
         {
             return myMsg;
