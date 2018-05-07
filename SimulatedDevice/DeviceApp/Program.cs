@@ -12,9 +12,9 @@ namespace SimulatedDevice
     class Program
     {
         private const string IotHubUri = "esp-IoTHub.azure-devices.net";
-        private const string DeviceKey = "gNB9EfjM1NjPvkI23SlFn+rl2nHkiI3pk++WByrSNBw=";
-        private const string DeviceId = "Sim8";
-        private const int DbDeviceId = 9;
+        private const string DeviceKey = "xD9QJqKx5orDcV5r+yJZoosoq2iwQiHMbPm2TWWIh/I=";
+        private const string DeviceId = "Sim4";
+        private const int DbDeviceId = 5;
         private static string _state = "OK";
         private static DeviceClient _deviceClient;
         private static int _messageId = 1;
@@ -53,15 +53,15 @@ namespace SimulatedDevice
             {
                 if (_messageId > 2)
                 {
-                    _alert = true;
+                    //_alert = true;
                     //_state = "Drowning";
                     //_state = "SOS2";
-                    _state = "SOS1";
-                    //_loc = UpdatedLocs[0];
+                    //_state = "SOS1";
+                    _loc = UpdatedLocs[1];
                 }
                 else
                 {
-                    _loc = OriginalLocs[7];
+                    _loc = OriginalLocs[3];
                 }
                 //_loc = OriginalLocs[10];
                 var telemetryDataPoint = new
@@ -84,7 +84,7 @@ namespace SimulatedDevice
                 await _deviceClient.SendEventAsync(message);
                 Console.WriteLine("{0} >> Sending message: {1}", DateTime.Now, messageString);
 
-                await Task.Delay(15000);
+                await Task.Delay(5000);
             }
         }
 
