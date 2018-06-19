@@ -29,9 +29,9 @@ if (success):
     mambo.turn_degrees(-45)
     mambo.smart_sleep(2)
 
-    #print("3. Moving Forward 50")
-    #mambo.fly_direct(roll=0, pitch=100, yaw=0, vertical_movement=30, duration=1)
-    #mambo.smart_sleep(2)
+    print("3. Moving Forward 50")
+    mambo.fly_direct(roll=0, pitch=100, yaw=0, vertical_movement=30, duration=1)
+    mambo.smart_sleep(2)
 
     print("4. Open Claw")
     mambo.open_claw()
@@ -46,9 +46,9 @@ if (success):
     mambo.smart_sleep(2)
 
 
-    #print("7. Moving Forward 50")
-    #mambo.fly_direct(roll=0, pitch=100, yaw=0, vertical_movement=-30, duration=1)
-    #mambo.smart_sleep(2)
+    print("7. Moving Forward 50")
+    mambo.fly_direct(roll=0, pitch=100, yaw=0, vertical_movement=-30, duration=1)
+    mambo.smart_sleep(2)
 
 
     print("8. Rotating -135 degress anti-clock in-place")
