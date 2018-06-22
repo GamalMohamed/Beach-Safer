@@ -5,6 +5,9 @@ bool volatile double_pressed = false;
 int dangerCounter_SpO2 = 0;
 int dangerCounter_HeartRate = 0;
 
+unsigned int volatile pushCount = 0; 
+unsigned long long volatile relCount = 0;
+
 char *MonitorHealth()
 {
   int SpO2, heartBeat;
@@ -29,116 +32,121 @@ char *MonitorHealth()
   return NORMAL_STATE;
 }
 
-void PushButtonISR()
+void track_push()
 {
-  // interrupts settings
-  sei();               // enable interrupts
-  EIMSK &= 0b11111110; //disable int0 only
-
-  unsigned int state = 1;
-  unsigned int pushCount = 0; 
-  unsigned long long relCount = 0;
-  while(1)
-  {
-    if(state == 1)        //tracking first push
+  while(1){
+    if(digitalRead(PUSH_BUTTON_PIN) == LOW) // pressed
+      pushCount++;
+    else
+      pushCount = 0;
+    if(pushCount >= PUSH_INTERVAL)
     {
-      if(digitalRead(PUSH_BUTTON_PIN) == LOW) // pressed
-        pushCount++;
-      else
-        pushCount = 0;
-      if(pushCount >= PUSH_INTERVAL)
-      {
-        pushCount = 0;
-        state = 2;
-      }
-    }
-
-    else if(state == 2)   //tracking first release
-    {
-      if(digitalRead(PUSH_BUTTON_PIN) == HIGH) // released
-        relCount++;
-      else
-        relCount = 0;
-      if(relCount >= REL_INTERVAL)
-      {
-        relCount = 0;
-        state = 3;
-      }
-    }
-
-    else if(state == 3)   // single and double push detection
-    {
-      if(digitalRead(PUSH_BUTTON_PIN) == LOW) // pressed
-      {
-        pushCount++;
-        relCount = 0;
-      }
-      else
-      {
-        relCount++;
-        pushCount = 0;
-      }
-
-      
-      if(relCount >= INTER_PUSHES_INTERVAL) //single push detected
-      {
-        relCount = 0;
-        pushCount = 0;
-        state = 5;
-      }
-      else if (pushCount >= PUSH_INTERVAL)  // double push detected
-      {
-        relCount = 0;
-        pushCount = 0;
-        state = 4;
-      }
-    }
-  
-    else if(state == 4)    // double push logic
-    {
-      if(digitalRead(PUSH_BUTTON_PIN) == HIGH)
-        relCount++;
-      else
-        relCount = 0;
-    
-      if(relCount >= REL_INTERVAL)
-      {
-        relCount = 0;
-        state = 6;
-      
-        // double push logic here
-        if (!double_pressed)
-        {
-          Serial.println("Double push detected");
-          Servo_init();
-          Servo_Operate();
-            
-          SendRF_message(ALERT_STATE_L2);
-          lockMax = true;
-          double_pressed = true;
-        }
-      }
-    }
-    
-    else if(state == 5)   // single push logic
-    {
-      state = 6;
-    
-      // single push logic here
-     
-      Serial.println("single push");
-      SendRF_message(ALERT_STATE_L1);
-      lockMax = true;
-    }
-  
-    else  // state = 6 , finish state
-    {
-      // enable Interrupt on PIN 2
-      EIFR &= 0b11111110;
-      EIMSK |= 0b00000001;
+      pushCount = 0;
       return;
     }
   }
+}
+
+void track_release()
+{
+  while(1){
+    if(digitalRead(PUSH_BUTTON_PIN) == HIGH) // released
+      relCount++;
+    else
+      relCount = 0;
+    if(relCount >= REL_INTERVAL)
+    {
+      relCount = 0;
+      return;
+    } 
+  }
+}
+
+bool check_new_push()
+{
+  while(1)
+  {
+    if(digitalRead(PUSH_BUTTON_PIN) == LOW) // pressed
+    {
+      pushCount++;
+      relCount = 0;
+    }
+    else
+    {
+      relCount++;
+      pushCount = 0;
+    }
+    
+    if(relCount >= INTER_PUSHES_INTERVAL) // new push didn't occur
+    {
+      relCount = 0;
+      pushCount = 0;
+      return false;
+    }
+    else if (pushCount >= PUSH_INTERVAL)  // new push detected
+    {
+      relCount = 0;
+      pushCount = 0;
+      return true;
+    }  
+  }
+}
+
+
+void PushButtonISR()
+{
+  sei();               // enable interrupts
+  EIMSK &= 0b11111110; //disable int0 only
+  
+  // tracking first push
+  track_push();
+  track_release();
+  
+  if(check_new_push() == false) // single push detected
+  {
+    // single push logic
+    Serial.println("single push");
+    SendRF_message(ALERT_STATE_L1);
+    lockMax = true;
+    // end
+    // enable Interrupt on PIN 2
+    EIFR &= 0b11111110;
+    EIMSK |= 0b00000001;
+    return;
+  }
+  track_release();
+  
+  if(check_new_push() == false)  // double push detected
+  {
+    // double push logic
+    if (!double_pressed)
+    {
+      Serial.println("Double push detected");
+      Servo_init();
+      Servo_Operate();
+            
+      SendRF_message(ALERT_STATE_L2);
+      lockMax = true;
+      double_pressed = true;
+    }
+    // end
+    // enable Interrupt on PIN 2
+    EIFR &= 0b11111110;
+    EIMSK |= 0b00000001;
+    return;
+  }
+  track_release();
+  
+  // triple push logic
+  Serial.println("triple push detected");
+  Servo_init();
+  Servo_Operate();
+  // end
+  // enable Interrupt on PIN 2
+  EIFR &= 0b11111110;
+  EIMSK |= 0b00000001;
+  return;
+    
 }
 
 
