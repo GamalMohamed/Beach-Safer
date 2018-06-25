@@ -11,10 +11,10 @@ namespace SimulatedDevice
 {
     class Program
     {
-        private const string IotHubUri = "esp-IoTHub.azure-devices.net";
-        private const string DeviceKey = "xD9QJqKx5orDcV5r+yJZoosoq2iwQiHMbPm2TWWIh/I=";
-        private const string DeviceId = "Sim4";
-        private const int DbDeviceId = 5;
+        private const string IotHubUri = "BSafer-iothub.azure-devices.net";
+        private const string DeviceKey = "Qq2948ipTbOftwNyCCzwG6SJ2UEXmfi/Y8dfNlPN1gg=";
+        private const string DeviceId = "Sim3";
+        private const int DbDeviceId = 3;
         private static string _state = "OK";
         private static DeviceClient _deviceClient;
         private static int _messageId = 1;
@@ -43,7 +43,9 @@ namespace SimulatedDevice
 
         private static Task<MethodResponse> Vibrate(MethodRequest methodRequest, object userContext)
         {
+            //Console.WriteLine("\nDrone Taking Off!!");
             Console.WriteLine("\nVIBRATING!!");
+            Console.WriteLine(Encoding.UTF8.GetString(methodRequest.Data));
             return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes("'Function invoked successfully!'"), 200));
         }
 
@@ -51,19 +53,19 @@ namespace SimulatedDevice
         {
             while (true)
             {
-                if (_messageId > 2)
-                {
-                    //_alert = true;
-                    //_state = "Drowning";
-                    //_state = "SOS2";
-                    //_state = "SOS1";
-                    _loc = UpdatedLocs[1];
-                }
-                else
-                {
-                    _loc = OriginalLocs[3];
-                }
-                //_loc = OriginalLocs[10];
+                //if (_messageId > 2)
+                //{
+                //    //_alert = true;
+                //    //_state = "Drowning";
+                //    //_state = "SOS2";
+                //    //_state = "SOS1";
+                //    _loc = UpdatedLocs[0];
+                //}
+                //else
+                //{
+                //    _loc = OriginalLocs[5];
+                //}
+                _loc = OriginalLocs[2];
                 var telemetryDataPoint = new
                 {
                     messageId = _messageId++,
@@ -84,7 +86,7 @@ namespace SimulatedDevice
                 await _deviceClient.SendEventAsync(message);
                 Console.WriteLine("{0} >> Sending message: {1}", DateTime.Now, messageString);
 
-                await Task.Delay(5000);
+                await Task.Delay(15000);
             }
         }
 
@@ -92,6 +94,7 @@ namespace SimulatedDevice
         {
             Console.WriteLine(DeviceId + " starting..\n");
             _deviceClient = DeviceClient.Create(IotHubUri, new DeviceAuthenticationWithRegistrySymmetricKey(DeviceId, DeviceKey), TransportType.Mqtt);
+            //_deviceClient.SetMethodHandlerAsync("takeOff", TakeOff, null).Wait();
             _deviceClient.SetMethodHandlerAsync("vibrate", Vibrate, null).Wait();
             SendDeviceToCloudMessagesAsync();
             Console.ReadLine();

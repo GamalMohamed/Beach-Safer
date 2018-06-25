@@ -7,13 +7,13 @@ namespace WebApp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class DbRebornInNewContext : IMigrationMetadata
+    public sealed partial class DbCreatedOnNewDB : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(DbRebornInNewContext));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(DbCreatedOnNewDB));
         
         string IMigrationMetadata.Id
         {
-            get { return "201804301035377_DbRebornInNewContext"; }
+            get { return "201806242100568_DbCreatedOnNewDB"; }
         }
         
         string IMigrationMetadata.Source

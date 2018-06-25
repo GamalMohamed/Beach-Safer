@@ -3,7 +3,7 @@ namespace WebApp.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class DbRebornInNewContext : DbMigration
+    public partial class DbCreatedOnNewDB : DbMigration
     {
         public override void Up()
         {

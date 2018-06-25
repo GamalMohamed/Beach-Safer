@@ -228,9 +228,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201804301035377_DbRebornInNewContext.cs" />
-    <Compile Include="Migrations\201804301035377_DbRebornInNewContext.Designer.cs">
-      <DependentUpon>201804301035377_DbRebornInNewContext.cs</DependentUpon>
+    <Compile Include="Migrations\201806242100568_DbCreatedOnNewDB.cs" />
+    <Compile Include="Migrations\201806242100568_DbCreatedOnNewDB.Designer.cs">
+      <DependentUpon>201806242100568_DbCreatedOnNewDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AdalTokenCache.cs" />
@@ -322,8 +322,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201804301035377_DbRebornInNewContext.resx">
-      <DependentUpon>201804301035377_DbRebornInNewContext.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201806242100568_DbCreatedOnNewDB.resx">
+      <DependentUpon>201806242100568_DbCreatedOnNewDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

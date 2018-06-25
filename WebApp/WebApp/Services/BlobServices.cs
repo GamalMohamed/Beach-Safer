@@ -15,12 +15,12 @@ namespace WebApp.Services
 {
     public class BlobServices
     {
-        private const string StorageName = "espblob";
+        private const string StorageName = "bsaferstorage";
 
         private const string AccountKey =
-            "F+q7zg+bARTa4FQX1vS++TUGRikvGOCUZLeO6MB2FxzysQpOxDwKkUmUm94Fl6b4vwN7T+yEHYkznJzGU4W3CQ==";
+            "OeLURgzlJKOxJL/FuCLKZI9DGbcYHBfGcFrb3rJiiHc0pZzEVSGBPuhB8TDaJBDVGzOP2lSKo9fGo7Sj0oyayA==";
 
-        public readonly string BlobUrl = "https://espblob.blob.core.windows.net/";
+        public readonly string BlobUrl = "https://bsaferstorage.blob.core.windows.net/";
 
         public StorageCredentials Credentials { get; set; }
 
