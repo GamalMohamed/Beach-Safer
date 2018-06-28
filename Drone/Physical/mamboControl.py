@@ -47,7 +47,7 @@ def launchMambo():
         print("2. Rotating -45 degress anti-clock in-place")
         mambo.turn_degrees(-45)
         mambo.smart_sleep(2)
-        """
+        
         print("3. Moving Forward 50")
         mambo.fly_direct(roll=0, pitch=100, yaw=0, vertical_movement=30, duration=1)
         mambo.smart_sleep(2)
@@ -59,15 +59,15 @@ def launchMambo():
         print("5. Close Claw")
         mambo.close_claw()
         mambo.smart_sleep(3)
-        """
+        
         print("6. Rotating 180 degress anti-clock in-place")
         mambo.turn_degrees(180)
         mambo.smart_sleep(2)
-        """
+        
         print("7. Moving Forward 50")
         mambo.fly_direct(roll=0, pitch=100, yaw=0, vertical_movement=-30, duration=1)
         mambo.smart_sleep(2)
-        """
+        
         print("8. Rotating -135 degress anti-clock in-place")
         mambo.turn_degrees(-135)
         mambo.smart_sleep(2)
@@ -103,7 +103,7 @@ def device_method_callback(method_name, payload, user_context):
     device_method_return_value.status = 200
     if method_name == "takeOff":
         print ( "Invoking Direct method...\n" )
-        #launchMambo()
+        launchMambo()
         device_method_return_value.response = "{ \"Response\": \"Successfully invoked direct method\" }"
         print("Successfully invoked direct method!")
         return device_method_return_value
@@ -127,7 +127,7 @@ def iothub_client_init():
     return client
 
 
-def iothub_client_sample_run():
+def iothub_client_app_run():
     try:
         client = iothub_client_init()
         if client.protocol == IoTHubTransportProvider.MQTT:
@@ -146,4 +146,4 @@ def iothub_client_sample_run():
 
 if __name__ == "__main__":
 
-    iothub_client_sample_run()
+    iothub_client_app_run()
