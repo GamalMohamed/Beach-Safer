@@ -47,7 +47,7 @@ def launchMambo():
         print("2. Rotating -45 degress anti-clock in-place")
         mambo.turn_degrees(-45)
         mambo.smart_sleep(2)
-        
+        """
         print("3. Moving Forward 50")
         mambo.fly_direct(roll=0, pitch=100, yaw=0, vertical_movement=30, duration=1)
         mambo.smart_sleep(2)
@@ -59,15 +59,15 @@ def launchMambo():
         print("5. Close Claw")
         mambo.close_claw()
         mambo.smart_sleep(3)
-        
+        """
         print("6. Rotating 180 degress anti-clock in-place")
         mambo.turn_degrees(180)
         mambo.smart_sleep(2)
-        
+        """
         print("7. Moving Forward 50")
         mambo.fly_direct(roll=0, pitch=100, yaw=0, vertical_movement=-30, duration=1)
         mambo.smart_sleep(2)
-        
+        """
         print("8. Rotating -135 degress anti-clock in-place")
         mambo.turn_degrees(-135)
         mambo.smart_sleep(2)
@@ -118,7 +118,6 @@ def iothub_client_init():
         client.set_option("timeout", TIMEOUT)
         client.set_option("MinimumPollingTime", MINIMUM_POLLING_TIME)
     client.set_option("messageTimeout", MESSAGE_TIMEOUT)
-    # to enable MQTT logging set to 1
     if client.protocol == IoTHubTransportProvider.MQTT:
         client.set_option("logtrace", 0)
     if client.protocol == IoTHubTransportProvider.MQTT or client.protocol == IoTHubTransportProvider.MQTT_WS:
