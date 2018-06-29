@@ -27,7 +27,7 @@ bool isItForMe(char *rfMsg, char **myMsg)
     strcpy(temp, rfMsg);
     char *dId = strtok(temp, " ");
     *myMsg = strtok(NULL, " ");
-    return (strcmp(dId, TEMP_MOCK_DEVICE_ID) == 0) ? true : false;
+    return (strcmp(dId, DEVICE_ID) == 0) ? true : false;
 }
 
 char *checkRF()
@@ -61,6 +61,8 @@ void readGPS(char *location)
     }
 }
 
+// Message format : 
+//{ "messageId": " ", "state": " ", "location": " ", "deviceId": , "customerId": , "beachId": ,"deviceUserId": , "droneId": " " }
 char *readMessage(int messageId, char *payload)
 {
     char *alert = "NA";
@@ -74,6 +76,10 @@ char *readMessage(int messageId, char *payload)
     JsonObject &root = jsonBuffer.createObject();
     root["deviceId"] = DB_DEVICE_ID;
     root["messageId"] = messageId;
+    root["customerId"] = CUSTOMER_ID;
+    root["beachId"] = BEACH_ID;
+    root["deviceUserId"] = DEVICE_USER_ID;
+    root["droneId"] = DRONE_ID;
 
     if (state == NULL)
     {

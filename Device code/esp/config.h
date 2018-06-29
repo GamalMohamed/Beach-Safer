@@ -1,7 +1,10 @@
 // Physical device information for board and sensor
 #define DEVICE_ID "ESP12F"
-#define DB_DEVICE_ID 2
-#define TEMP_MOCK_DEVICE_ID "ESP"
+#define DB_DEVICE_ID 1
+#define CUSTOMER_ID 1
+#define BEACH_ID 1
+#define DEVICE_USER_ID 1
+#define DRONE_ID "Mambo"
 
 // Pin layout
 #define LED_PIN 2

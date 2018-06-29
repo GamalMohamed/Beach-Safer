@@ -4,7 +4,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Client;
-using Microsoft.Azure.Devices.Shared;
 using Newtonsoft.Json;
 
 namespace SimulatedDevice
@@ -14,12 +13,16 @@ namespace SimulatedDevice
         private const string IotHubUri = "BSafer-iothub.azure-devices.net";
         private const string DeviceKey = "Qq2948ipTbOftwNyCCzwG6SJ2UEXmfi/Y8dfNlPN1gg=";
         private const string DeviceId = "Sim3";
-        private const int DbDeviceId = 3;
+        private const int DbDeviceId = 1;
+        private const int CustomerId = 1;
+        private const int BeachId = 1;
+        private const int DeviceUserId = 1;
+        private const string DroneId = "Sim-Drone";
         private static string _state = "OK";
-        private static DeviceClient _deviceClient;
         private static int _messageId = 1;
-        private static bool _alert = false;
         private static string _loc;
+        private static bool _alert = false;
+        private static DeviceClient _deviceClient;
         private static readonly List<string> OriginalLocs =
                                              new List<string>(){
                                                                 "31.025254,29.615265", //0 Sim1
@@ -53,25 +56,29 @@ namespace SimulatedDevice
         {
             while (true)
             {
-                //if (_messageId > 2)
-                //{
-                //    //_alert = true;
-                //    //_state = "Drowning";
-                //    //_state = "SOS2";
-                //    //_state = "SOS1";
-                //    _loc = UpdatedLocs[0];
-                //}
-                //else
-                //{
-                //    _loc = OriginalLocs[5];
-                //}
-                _loc = OriginalLocs[2];
+                if (_messageId > 2)
+                {
+                    _alert = true;
+                    _state = "Drowning";
+                    //_state = "SOS2";
+                    //_state = "SOS1";
+                    //_loc = UpdatedLocs[0];
+                }
+                else
+                {
+                    _loc = OriginalLocs[2];
+                }
+                //_loc = OriginalLocs[2];
                 var telemetryDataPoint = new
                 {
                     messageId = _messageId++,
                     deviceId = DbDeviceId,
                     location = _loc,
-                    state = _state
+                    state = _state,
+                    customerId = CustomerId,
+                    beachId = BeachId,
+                    deviceUserId = DeviceUserId,
+                    droneId = DroneId
                 };
                 var messageString = JsonConvert.SerializeObject(telemetryDataPoint);
                 var message = new Message(Encoding.ASCII.GetBytes(messageString));
@@ -86,7 +93,7 @@ namespace SimulatedDevice
                 await _deviceClient.SendEventAsync(message);
                 Console.WriteLine("{0} >> Sending message: {1}", DateTime.Now, messageString);
 
-                await Task.Delay(15000);
+                await Task.Delay(5000);
             }
         }
 

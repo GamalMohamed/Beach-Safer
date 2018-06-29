@@ -28,6 +28,8 @@ namespace WebApp.Models
 
         public virtual ICollection<Device> Devices { get; set; }
 
+        public virtual ICollection<DeviceLog> DevicesLogs { get; set; }
+
     }
 
     public enum SubscriptionType
@@ -61,6 +63,8 @@ namespace WebApp.Models
         public virtual Customer Customer { get; set; }
 
         public virtual BeachAccess BeachAccess { get; set; }
+
+        public virtual ICollection<DeviceLog> DevicesLogs { get; set; }
     }
 
 }

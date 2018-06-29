@@ -232,6 +232,10 @@
     <Compile Include="Migrations\201806242100568_DbCreatedOnNewDB.Designer.cs">
       <DependentUpon>201806242100568_DbCreatedOnNewDB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806292050345_RelatedLogsToRest.cs" />
+    <Compile Include="Migrations\201806292050345_RelatedLogsToRest.Designer.cs">
+      <DependentUpon>201806292050345_RelatedLogsToRest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AdalTokenCache.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -324,6 +328,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201806242100568_DbCreatedOnNewDB.resx">
       <DependentUpon>201806242100568_DbCreatedOnNewDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806292050345_RelatedLogsToRest.resx">
+      <DependentUpon>201806292050345_RelatedLogsToRest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
