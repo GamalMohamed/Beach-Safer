@@ -50,20 +50,10 @@ namespace WebApp.Models
         [ForeignKey("DeviceId")]
         public virtual Device Device { get; set; }
 
-        public int? CustomerId { get; set; }
-
-        [ForeignKey("CustomerId")]
-        public virtual Customer Customer { get; set; }
-
         public int? BeachId { get; set; }
 
         [ForeignKey("BeachId")]
         public virtual Beach Beach { get; set; }
-
-        public int? DeviceUserId { get; set; }
-
-        [ForeignKey("DeviceUserId")]
-        public virtual DeviceUser DeviceUser { get; set; }
 
         public DateTime? Timestamp { get; set; }
 

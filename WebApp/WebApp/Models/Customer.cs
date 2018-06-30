@@ -27,9 +27,6 @@ namespace WebApp.Models
         public virtual ICollection<DeviceUser> DeviceUsers { get; set; }
 
         public virtual ICollection<Device> Devices { get; set; }
-
-        public virtual ICollection<DeviceLog> DevicesLogs { get; set; }
-
     }
 
     public enum SubscriptionType

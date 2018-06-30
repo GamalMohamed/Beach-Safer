@@ -43,8 +43,6 @@ namespace WebApp.Models
         [ForeignKey("CustomerId")]
         public virtual Customer Customer { get; set; }
 
-        public virtual ICollection<DeviceLog> DevicesLogs { get; set; }
-
     }
 
     

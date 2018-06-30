@@ -236,6 +236,10 @@
     <Compile Include="Migrations\201806292050345_RelatedLogsToRest.Designer.cs">
       <DependentUpon>201806292050345_RelatedLogsToRest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806300948436_RemovedSomeRedundantRelations.cs" />
+    <Compile Include="Migrations\201806300948436_RemovedSomeRedundantRelations.Designer.cs">
+      <DependentUpon>201806300948436_RemovedSomeRedundantRelations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AdalTokenCache.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -331,6 +335,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806292050345_RelatedLogsToRest.resx">
       <DependentUpon>201806292050345_RelatedLogsToRest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806300948436_RemovedSomeRedundantRelations.resx">
+      <DependentUpon>201806300948436_RemovedSomeRedundantRelations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

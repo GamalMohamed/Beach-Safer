@@ -8,6 +8,8 @@ namespace WebApp.ViewModels
 {
     public class BeachViewModel
     {
+        public int BeachId { get; set; }
+
         public string Name { get; set; }
 
         public string StartPoint { get; set; }

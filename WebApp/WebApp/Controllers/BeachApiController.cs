@@ -29,6 +29,7 @@ namespace WebApp.Controllers
 
             var beachVm = new BeachViewModel()
             {
+                BeachId = beach.Id,
                 Name = beach.Name,
                 CustomerLogo = beach.Customer.Logo,
                 CustomerName = beach.Customer.Name,
