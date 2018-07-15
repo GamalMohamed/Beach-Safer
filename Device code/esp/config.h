@@ -1,17 +1,15 @@
 // Physical device information for board and sensor
 #define DEVICE_ID "ESP12F"
 #define DB_DEVICE_ID 1
-#define CUSTOMER_ID 1
 #define BEACH_ID 1
-#define DEVICE_USER_ID 1
 #define DRONE_ID "Mambo"
 
 // Pin layout
 #define LED_PIN 2
-#define VIBRATION_MOTOR_PIN 4
+#define VIBRATION_MOTOR_PIN 5
 #define GPS_RX_PIN 13
 #define GPS_TX_PIN 12
-#define RF_RX_PIN 5
+#define RF_RX_PIN 4
 #define RF_TX_PIN 2
 #define RF_PTT_PIN -1
 
@@ -31,7 +29,7 @@
 
 static char *ssid = "Jimmy2";
 static char *pass = "12345678900";
-static char *connectionString = "HostName=esp-IoTHub.azure-devices.net;DeviceId=ESP12F;SharedAccessKey=aftzwu/tZRjLx46Pn4/2jdiOLlS0ohv553OB1dChYBI=";
+static char *connectionString = "HostName=BSafer-iothub.azure-devices.net;DeviceId=ESP12F;SharedAccessKey=y04dbvZwsTN7fOnqIhzCbd8Yx+9EuHhKVcnY2GN1vzk=";
 
 static unsigned int messageCount = 1;
 

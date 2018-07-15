@@ -76,9 +76,7 @@ char *readMessage(int messageId, char *payload)
     JsonObject &root = jsonBuffer.createObject();
     root["deviceId"] = DB_DEVICE_ID;
     root["messageId"] = messageId;
-    root["customerId"] = CUSTOMER_ID;
     root["beachId"] = BEACH_ID;
-    root["deviceUserId"] = DEVICE_USER_ID;
     root["droneId"] = DRONE_ID;
 
     if (state == NULL)
