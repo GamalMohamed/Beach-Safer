@@ -32,9 +32,9 @@ void ReadingProgressBar(int j)
 
 void DisplayReadings()
 {
-  Serial.println("");
-  Serial.print(average_beat);
-  Serial.println(" Bpm");
+  //Serial.println("");
+  //Serial.print(average_beat);
+  //Serial.println(" Bpm");
   Serial.print("SpO2 ");
   Serial.print(average_SpO2);
   Serial.println("%");

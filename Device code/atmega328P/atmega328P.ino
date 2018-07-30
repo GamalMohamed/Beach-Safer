@@ -12,7 +12,7 @@ char *MonitorHealth()
 {
   int SpO2, heartBeat;
   MAX30100_Operate(SpO2, heartBeat);
-  if (SpO2 > 0 && SpO2 < 90)
+  /*if (SpO2 > 0 && SpO2 < 90)
   {
     dangerCounter_SpO2++;
     if(dangerCounter_SpO2 >= 3)
@@ -28,7 +28,7 @@ char *MonitorHealth()
       return DISTRESS_STATE;
     }
   }
-
+ */
   return NORMAL_STATE;
 }
 
@@ -139,8 +139,7 @@ void PushButtonISR()
   
   // triple push logic
   Serial.println("triple push detected");
-  Servo_init();
-  Servo_Operate();
+  Servo_reset();
   // end
   // enable Interrupt on PIN 2
   EIFR &= 0b11111110;

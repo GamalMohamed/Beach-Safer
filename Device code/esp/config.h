@@ -27,8 +27,8 @@
 #define PASS_LEN 32
 #define CONNECTION_STRING_LEN 256
 
-static char *ssid = "Jimmy2";
-static char *pass = "12345678900";
+static char *ssid = "Jimmy Y7";
+static char *pass = "12345678909";
 static char *connectionString = "HostName=BSafer-iothub.azure-devices.net;DeviceId=ESP12F;SharedAccessKey=y04dbvZwsTN7fOnqIhzCbd8Yx+9EuHhKVcnY2GN1vzk=";
 
 static unsigned int messageCount = 1;
