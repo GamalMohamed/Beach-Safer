@@ -1,0 +1,9 @@
+SELECT
+    messageId as MessageId, deviceId as DeviceId, beachId as BeachId, 
+    location as Location, state as State, EventEnqueuedUtcTime as Timestamp
+INTO
+    [bsafer-db]
+FROM
+    [bsafer-iothub]
+WHERE
+    MessageId = 1 OR State != 'OK'
